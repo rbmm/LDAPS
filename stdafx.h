@@ -64,7 +64,7 @@ typedef GUID *PGUID;
 #include <Lm.h>
 #include <Dsgetdc.h>
 #include <Winldap.h>
-
+#include <Winber.h>
 #include <sspi.h>
 #include <Ntdsapi.h>
 

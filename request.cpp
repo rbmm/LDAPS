@@ -75,89 +75,6 @@ HRESULT PFXImport(_In_ PCWSTR lpFileName,
 void Cleanup(_In_ PWSTR pwszUserName);
 void Cleanup(_In_ PCCERT_CONTEXT pCertContext, _In_ BOOL bInStore);
 
-struct LCC 
-{
-	LCC* next;
-	PLDAP Connection;
-	PCCERT_CONTEXT pCertContext;
-
-	inline static LCC* _G_first = 0;
-	inline static SRWLOCK _G_Lock = {};
-
-	static PCCERT_CONTEXT get(_In_ PLDAP Connection)
-	{
-		PCCERT_CONTEXT pCertContext = 0;
-		
-		AcquireSRWLockShared(&_G_Lock);
-		
-		if (LCC* entry = _G_first)
-		{
-			do 
-			{
-				if (Connection == entry->Connection)
-				{
-					pCertContext = entry->pCertContext;
-					break;
-				}
-			} while (entry = entry->next);
-		}
-
-		ReleaseSRWLockShared(&_G_Lock);
-
-		return pCertContext;
-	}
-
-	static BOOL Add(_In_ PLDAP Connection, _In_ PCCERT_CONTEXT pCertContext)
-	{
-		if (LCC* entry = new LCC)
-		{
-			entry->Connection = Connection;
-			entry->pCertContext = pCertContext;
-
-			AcquireSRWLockExclusive(&_G_Lock);
-			entry->next = _G_first, _G_first = entry;
-			ReleaseSRWLockExclusive(&_G_Lock);
-
-			return TRUE;
-		}
-
-		return FALSE;
-	}
-
-	static BOOL Remove(_In_ PLDAP Connection)
-	{
-		LCC* entry = 0;
-
-		AcquireSRWLockExclusive(&_G_Lock);
-
-		if (entry = _G_first)
-		{
-			LCC** pnext = &_G_first;
-			do 
-			{
-				if (Connection == entry->Connection)
-				{
-					*pnext = entry->next;
-					break;
-				}
-				
-				pnext = &entry->next;
-
-			} while (entry = entry->next);
-		}
-
-		ReleaseSRWLockExclusive(&_G_Lock);
-
-		if (entry)
-		{
-			delete entry;
-			return TRUE;
-		}
-
-		return FALSE;
-	}
-};
-
 BOOLEAN _cdecl GetClientCert (_In_ PLDAP Connection,
 							   _In_ PSecPkgContext_IssuerListInfoEx trusted_CAs,
 							   _Inout_ PCCERT_CONTEXT *ppCertificate)
@@ -166,7 +83,7 @@ BOOLEAN _cdecl GetClientCert (_In_ PLDAP Connection,
 
 	*ppCertificate = 0;
 
-	if (PCCERT_CONTEXT pCertificate = LCC::get(Connection))
+	if (PCCERT_CONTEXT pCertificate = *(PCCERT_CONTEXT*)Connection->ld_sb.Reserved2)
 	{
 		if (DWORD cIssuers = trusted_CAs->cIssuers)
 		{
@@ -207,40 +124,46 @@ BOOLEAN _cdecl VerifyServerCert (
 	return TRUE;
 }
 
-HRESULT LDAPQuery(LDAP* ld, PCWSTR base, PCWSTR filter, const PCWSTR attr[])
+HRESULT LDAPQuery(_In_ LDAP* ld, _In_ PCWSTR base, _In_ ULONG scope, _In_ PCWSTR filter)
 {
+	DbgPrint("Query:\r\nbase: %s\r\nfilter: %s\r\nattr:\r\n", base, filter);
+
 	ULONG LdapError;
 	LDAPMessage* res = 0;
 
-	if (LDAP_SUCCESS == (LdapError = ldap_search_sW(ld, const_cast<PWSTR>(base), LDAP_SCOPE_SUBTREE, 
-		const_cast<PWSTR>(filter), const_cast<PZPWSTR>(attr), FALSE, &res)))
+	if (LDAP_SUCCESS == (LdapError = ldap_search_sW(ld, const_cast<PWSTR>(base), scope, 
+		const_cast<PWSTR>(filter), 0, FALSE, &res)))
 	{
-		if (PWSTR* vals = ldap_get_valuesW(ld, res, const_cast<PWSTR>(L"cn")))
+		if (LDAPMessage* entry = ldap_first_entry(ld, res))
 		{
-			DbgPrint("[*]	ldap_get_valuesW\r\n");
-
-			PWSTR psz, *ppsz = vals;
-			while (psz = *ppsz++)
+			do 
 			{
-				DbgPrint("CN=\"%s\"\r\n", psz);
-			}
-			ldap_value_freeW(vals);
-		}
+				BerElement* ptr;
 
-		if (berval** vals = ldap_get_values_lenW(ld, res, const_cast<PWSTR>(L"cACertificate")))
-		{
-			berval* p, **pp = vals; 
-			while (p = *pp++)
-			{
-				if (PCCERT_CONTEXT pCertContext = CertCreateCertificateContext(
-					X509_ASN_ENCODING, (PBYTE)p->bv_val, p->bv_len))
+				if (PWCHAR attr = ldap_first_attributeW(ld, entry, &ptr))
 				{
-					DbgPrint("CA cert:\r\n");
-					PrintCertOp(pCertContext);
-					CertFreeCertificateContext(pCertContext);
+					do 
+					{
+						DbgPrint("[%s]:\r\n", attr);
+
+						if (PWSTR* vals = ldap_get_valuesW(ld, entry, attr))
+						{
+							DbgPrint("[*]	ldap_get_valuesW\r\n");
+
+							PWSTR psz, *ppsz = vals;
+							while (psz = *ppsz++)
+							{
+								DbgPrint("\t\"%s\"\r\n", psz);
+							}
+
+							ldap_value_freeW(vals);
+						}
+
+					} while (attr = ldap_next_attributeW(ld, entry, ptr));
+
+					ber_free(ptr, 0);
 				}
-			}
-			ldap_value_free_len(vals);
+			} while (entry = ldap_next_entry(ld, entry));
 		}
 
 		ldap_msgfree(res);
@@ -249,232 +172,430 @@ HRESULT LDAPQuery(LDAP* ld, PCWSTR base, PCWSTR filter, const PCWSTR attr[])
 	return LdapError;
 }
 
-HRESULT LDAPMain(PCWSTR pszUserName, PCWSTR pszPassword, PCCERT_CONTEXT pCertContext)
+HRESULT PFXImport(_In_ PCWSTR lpFileName, 
+				  _In_ PCWSTR szPassword,
+				  _Out_ PWSTR *ppwszUserName, 
+				  _Out_ PCCERT_CONTEXT* ppCertContext,
+				  _Out_ NCRYPT_KEY_HANDLE* phKey,
+				  _Out_ PULONG pCrc);
+
+ULONG ldap_connect( LDAP *ld, struct l_timeval *timeout, NCRYPT_KEY_HANDLE* phKey, ULONG crc );
+
+HRESULT LDAPMain(_In_ PWSTR DomainName,
+				 _In_ PWSTR HostName,
+				 _In_ PWSTR Base,
+				 _In_ PWSTR Filter,
+				 _In_ ULONG scope,
+				 _In_ PCWSTR pszUserName, 
+				 _In_ PCWSTR pszPassword, 
+				 _In_ PCCERT_CONTEXT pCertContext, 
+				 _Inout_ NCRYPT_KEY_HANDLE* phKey, 
+				 _In_ ULONG crc)
 {
 	if (IsDebuggerPresent())
 	{
 		__debugbreak();
 	}
 
+	DbgPrint("DN= %s\r\nHost= %s\r\n", DomainName, HostName);
+
 	HRESULT hr = S_OK;
 	ULONG LdapError = LDAP_SUCCESS;
 	
-	WCHAR DomainName[0x100];
-
-	if (ULONG cch = HR(hr, GetEnvironmentVariableW(L"USERDNSDOMAIN", DomainName, _countof(DomainName) - 1)))
+	if (LDAP* ld = pCertContext ? ldap_sslinitW(DomainName, LDAP_SSL_PORT, TRUE) : ldap_initW(DomainName, LDAP_PORT))
 	{
-		if (LDAP* ld = pCertContext ? ldap_sslinitW(DomainName, LDAP_SSL_PORT, TRUE) : ldap_initW(DomainName, LDAP_PORT))
+		DbgPrint("[*]	ldap_initW\r\n");
+
+		SEC_WINNT_AUTH_IDENTITY_W cred = {
+			(USHORT*)pszUserName,
+			(USHORT)(pszUserName ? wcslen(pszUserName) : 0),
+			(USHORT*)DomainName,
+			(USHORT)wcslen(DomainName),
+			(USHORT*)pszPassword,
+			(USHORT)(pszPassword ? wcslen(pszPassword) : 0),
+			SEC_WINNT_AUTH_IDENTITY_UNICODE
+		};
+
+		LDAP_TIMEVAL timeout = {60};//1 min
+
+		if (pCertContext)
 		{
-			DbgPrint("[*]	ldap_initW\r\n");
+			*(PCCERT_CONTEXT*)ld->ld_sb.Reserved2 = pCertContext;// !?
 
-			SEC_WINNT_AUTH_IDENTITY_W cred = {
-				(USHORT*)pszUserName,
-				(USHORT)(pszUserName ? wcslen(pszUserName) : 0),
-				(USHORT*)DomainName,
-				(USHORT)wcslen(DomainName),
-				(USHORT*)pszPassword,
-				(USHORT)(pszPassword ? wcslen(pszPassword) : 0),
-				SEC_WINNT_AUTH_IDENTITY_UNICODE
-			};
-
-			if (pCertContext)
+			if (LDAP_SUCCESS != (LdapError = ldap_set_optionW(ld, LDAP_OPT_SSL, LDAP_OPT_ON )) ||
+				LDAP_SUCCESS != (LdapError = ldap_set_optionW(ld, LDAP_OPT_CLIENT_CERTIFICATE, GetClientCert)) ||
+				LDAP_SUCCESS != (LdapError = ldap_set_optionW(ld, LDAP_OPT_SERVER_CERTIFICATE, VerifyServerCert)))
 			{
-				if (LCC::Add(ld, pCertContext))
-				{
-					if (LDAP_SUCCESS != (LdapError = ldap_set_optionW(ld, LDAP_OPT_SSL, LDAP_OPT_ON )) ||
-						LDAP_SUCCESS != (LdapError = ldap_set_optionW(ld, LDAP_OPT_CLIENT_CERTIFICATE, GetClientCert)) ||
-						LDAP_SUCCESS != (LdapError = ldap_set_optionW(ld, LDAP_OPT_SERVER_CERTIFICATE, VerifyServerCert)))
-					{
-						goto __exit;
-					}
-				}
+				goto __exit;
 			}
+		}
 
-			InitSacl(ld);
+		InitSacl(ld);
 
-			if (LDAP_SUCCESS == (LdapError = ldap_connect(ld, 0)))
+		if (HostName)
+		{
+			ldap_set_optionW(ld, LDAP_OPT_HOST_NAME, &HostName);
+		}
+
+		if (LDAP_SUCCESS == (LdapError = phKey ? ldap_connect(ld, &timeout, phKey, crc) : ldap_connect(ld, &timeout)))
+		{
+			DbgPrint("[*]	ldap_connect\r\n");
+
+			if (LDAP_SUCCESS == (LdapError = ldap_bind_sW(ld, 0, pszUserName ? (PWSTR)&cred : 0, LDAP_AUTH_NEGOTIATE)))
 			{
-				DbgPrint("[*]	ldap_connect\r\n");
+				DbgPrint("[*]	ldap_bind_sW\r\n");
 
-				if (LDAP_SUCCESS == (LdapError = ldap_bind_sW(ld, 0, pszUserName ? (PWSTR)&cred : 0, LDAP_AUTH_NEGOTIATE)))
-				{
-					DbgPrint("[*]	ldap_bind_sW\r\n");
-
-					DomainName[cch] = '/';
-					DomainName[cch + 1] = 0;
-
-					PWSTR base = 0;
-					int len = 0;
-
-					PCWSTR name = DomainName;
-					PDS_NAME_RESULTW pResult = 0;
-					if (NOERROR == (hr = DsCrackNamesW(0, DS_NAME_FLAG_SYNTACTICAL_ONLY,
-						DS_CANONICAL_NAME, DS_FQDN_1779_NAME, 1, &name, &pResult)))
-					{
-						hr = ERROR_NOT_FOUND;
-
-						if (pResult->cItems)
-						{
-							PDS_NAME_RESULT_ITEMW rItems = pResult->rItems;
-							if (DS_NAME_NO_ERROR == rItems->status)
-							{
-								while (0 < (len = _snwprintf(base, len, 
-									L"CN=Enrollment Services,CN=Public Key Services,CN=Services,CN=Configuration,%s", 
-									rItems->pName)))
-								{
-									if (base)
-									{
-										hr = NOERROR;
-										DbgPrint("%s\n", base);
-										break;
-									}
-
-									base = (PWSTR)alloca(++len * sizeof(WCHAR));
-								}
-							}
-						}
-
-						DsFreeNameResult(pResult);
-					}
-
-					if (NOERROR == hr)
-					{
-						static const PCWSTR attr[] = { L"cn", L"cACertificate", 0 };
-
-						LdapError = LDAPQuery(ld, base, 
-							L"(&(objectCategory=pKIEnrollmentService)(certificateTemplates=SmartcardLogon))", attr);
-					}
-				}
+				LdapError = LDAPQuery(ld, Base, scope, Filter);
 			}
+		}
 __exit:
 
-			if (pCertContext)
-			{
-				if (!LCC::Remove(ld))
-				{
-					__debugbreak();
-				}
-			}
+		ldap_unbind_s(ld);
+	}
+	else
+	{
+		LdapError = LdapGetLastError();
+	}
 
-			ldap_unbind_s(ld);
-		}
-		else
+	if (LdapError)
+	{
+		hr = LdapMapErrorToWin32(LdapError);
+
+		if (PCWSTR psz = ldap_err2stringW(LdapError))
 		{
-			LdapError = LdapGetLastError();
-		}
-
-		if (LdapError)
-		{
-			hr = LdapMapErrorToWin32(LdapError);
-
-			if (PCWSTR psz = ldap_err2stringW(LdapError))
-			{
-				DbgPrint("LdapError: %s\r\n", psz);
-			}
+			DbgPrint("LdapError: %s\r\n", psz);
 		}
 	}
 
 	return HRESULT_FROM_WIN32(hr);
 }
 
-HRESULT cmd(ULONG argc, PWSTR argv[], PCCERT_CONTEXT pCertContext)
+void SSHtest();
+void CloseZombie();
+#if 0
+ULONG WINAPI Wk(HANDLE hDllHandle)
 {
-	HRESULT hr = HRESULT_FROM_NT(STATUS_INVALID_PARAMETER_MIX);
+	SSHtest();
+	FreeLibraryAndExitThread((HMODULE)hDllHandle, 0);
+}
 
-	if (!wcscmp(argv[0], L"user"))
+BOOLEAN WINAPI DllMain( HMODULE hDllHandle, DWORD dwReason, LPVOID hThread )
+{
+	if (IsDebuggerPresent()) __debugbreak();
+	if (DLL_PROCESS_ATTACH == dwReason)
 	{
-		switch (argc)
+		DisableThreadLibraryCalls(hDllHandle);
+		if (hThread = CreateThread(0, 0, Wk, hDllHandle, 0, 0))
 		{
-		case 1:// *user
-			return LDAPMain(0, 0, pCertContext);
-		case 3:// *user*name*pass
-			return LDAPMain(argv[1], argv[2], pCertContext);
+			NtClose(hThread);
 		}
 	}
-	else if (!wcscmp(argv[0], L"cert"))
+	return TRUE;
+}
+#endif
+
+//%% -> %
+//%* -> #
+
+BOOL UnEscape(_Inout_ PWSTR str)
+{
+	PWSTR buf = str;
+	WCHAR c;
+	do
 	{
-		if (3 == argc)
+		if ('%' == (c = *str++))
 		{
-			// *cert*file*pass
-			PWSTR pszUserName = 0;
-
-			if (0 <= (hr = PFXImport(argv[1], argv[2], &pszUserName, 0)))
+			switch (c = *str++)
 			{
-				hr = LDAPMain(pszUserName, L"", pCertContext);
+			case '*':
+				c = '#';
+				break;
+			case '%':
+				break;
+			default:
+				return FALSE;
+			}
+		}
 
+		*buf++ = c;
+
+	} while (c);
+
+	return TRUE;
+}
+
+PWSTR FormatBase(PWSTR Base, PWSTR Domain)
+{
+	PWSTR pc = Base, last;
+	
+	ULONG n = 2, m = 1;
+	
+	size_t cch = wcslen(Base) + wcslen(Domain);
+	
+	while (pc = wcschr(1 + (last = pc), '\\'))
+	{
+		n++;
+	}
+	
+	pc = Domain;
+
+	while (pc = wcschr(pc, '.'))
+	{
+		n++, m++, *pc++ = 0;
+	}
+	cch += n * 3 + 1;
+
+	if (PWSTR buf = new WCHAR[cch])
+	{
+		PWSTR psz = buf;
+
+		for (;;)
+		{
+			wcscpy(psz = wcscpy(psz, L"CN=") + 3, last + 1);
+			psz += wcslen(psz);
+			*psz++ = ',';
+			if (last == Base) break;
+			*last = 0;
+			while ('\\' != *--last) ;
+		}
+
+		pc = Domain;
+		do 
+		{
+			wcscpy(psz = wcscpy(psz, L"DC=") + 3, pc);
+			psz += wcslen(psz);
+			pc += wcslen(pc);
+			*pc++ = '.';
+			*psz++ = ',';
+		} while (--m);
+
+		psz[-1] = 0, pc[-1] = 0;
+		
+		return buf;
+	}
+	
+	return 0;
+}
+
+HRESULT cmd(PWSTR lpCommandLine)
+{
+	if (IsDebuggerPresent())__debugbreak();
+
+	ULONG scope = MAXDWORD;
+	PWSTR pszDomain = 0, pszHost = 0, pszUserName = 0, pszPassword = 0, pszScope = 0, 
+		pszPfx = 0, pszSslPfx = 0, pszSslPassword = 0, pszBase = 0, pszFilter = 0;
+
+	// cmd   = #param[#param]
+	// param = name:value
+	// name:
+	//		dn:
+	//		srv:
+	//		base:
+	//		flt:
+	//		scope: 0|1|2
+	//		user: user:pass
+	//		pfx: file:pass
+	//		ssl: file:pass
+
+	PWSTR pszValue = 0;
+
+	while (lpCommandLine = wcschr(lpCommandLine, '#'))
+	{
+		*lpCommandLine++ = 0;
+
+		if (pszValue && !UnEscape(pszValue))
+		{
+			return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER);
+		}
+
+		if (pszValue)
+		{
+			DbgPrint("\"%s\";\r\n", pszValue);
+		}
+		
+		if (!(pszValue = wcschr(lpCommandLine, ':')))
+		{
+			return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER);
+		}
+
+		ULONG crc = RtlComputeCrc32(0, lpCommandLine, RtlPointerToOffset(lpCommandLine, pszValue));
+		
+		*pszValue++ = 0;
+
+		DbgPrint("case 0x%08X: // %s = ", crc, lpCommandLine);
+
+		lpCommandLine = pszValue;
+
+		switch (crc)
+		{
+		case 0x6E7EF961: // dn
+			if (pszDomain) return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER_MIX);
+			pszDomain = pszValue;
+			break;
+		
+		case 0x842768AB: // srv
+			if (pszHost) return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER_MIX);
+			pszHost = pszValue;
+			break;
+		
+		case 0x554434C0: // base
+			if (pszBase) return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER_MIX);
+			pszBase = pszValue;
+			break;
+		
+		case 0x55CCB9AD: // flt
+			if (pszFilter) return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER_MIX);
+			pszFilter = pszValue;
+			break;
+		
+		case 0x2A877344: // scope
+			if (pszScope) return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER_MIX);
+			pszScope = pszValue;
+			break;
+		
+		case 0x1DD523B7: // user
+			if (pszUserName) return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER_MIX);
+			pszUserName = pszValue;
+			break;
+			
+		case 0x434BF743: // pfx
+			if (pszPfx) return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER_MIX);
+			pszPfx = pszValue;
+			break;
+		
+		case 0x8CB6F515: // ssl
+			if (pszSslPfx) return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER_MIX);
+			pszSslPfx = pszValue;
+			break;
+		
+		default:
+			return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER);
+		}
+	}
+
+	if (!pszValue || !UnEscape(pszValue) || !pszScope)
+	{
+		return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER);
+	}
+
+	DbgPrint("\"%s\";\r\n", pszValue);
+
+	scope = wcstoul(pszScope, &pszScope, 10);
+	if (*pszScope || scope > LDAP_SCOPE_SUBTREE) return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER);
+
+	if (!pszBase || !pszFilter || *pszBase != '\\' || ((0 != pszPfx) && (0 != pszUserName)))
+	{
+		return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER_MIX);
+	}
+
+	if (pszUserName)
+	{
+		if (pszPassword = wcschr(pszUserName, ':'))
+		{
+			*pszPassword++ = 0;
+		}
+		else
+		{
+			return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER);
+		}
+	}
+
+	if (pszPfx)
+	{
+		if (pszPassword = wcschr(pszPfx, ':'))
+		{
+			*pszPassword++ = 0;
+		}
+		else
+		{
+			return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER);
+		}
+	}
+
+	if (pszSslPfx)
+	{
+		if (pszSslPassword = wcschr(pszSslPfx, ':'))
+		{
+			*pszSslPassword++ = 0;
+		}
+		else
+		{
+			return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER);
+		}
+	}
+
+	if (!pszDomain)
+	{
+		ULONG cch = 0;
+
+		while (cch = GetEnvironmentVariable(L"USERDNSDOMAIN", pszDomain, cch))
+		{
+			if (pszDomain)
+			{
+				break;
+			}
+
+			pszDomain = (PWSTR)alloca(cch * sizeof(ULONG));
+		}
+
+		if (!cch)
+		{
+			return GetLastHr();
+		}
+	}
+
+	ULONG crc;
+	NCRYPT_KEY_HANDLE hKey = 0;
+	PCCERT_CONTEXT pCertContext = 0;
+
+	HRESULT hr;
+
+	if (S_OK == (hr = PFXImport(pszSslPfx, pszSslPassword, 0, &pCertContext, &hKey, &crc)))
+	{
+		if (S_OK == (hr = PFXImport(pszPfx, pszPassword, &pszUserName, 0, 0, 0)))
+		{
+			if (pszBase = FormatBase(pszBase, pszDomain))
+			{
+				hr = LDAPMain(pszDomain, pszHost, pszBase, pszFilter, scope, 
+					pszUserName, pszPfx ? L"" : pszPassword, pCertContext, &hKey, crc);
+
+				delete [] pszBase;
+			}
+
+			if (pszPfx && pszUserName)
+			{
 				Cleanup(pszUserName);
 			}
+		}
+
+		if (hKey)
+		{
+			NCryptFreeObject(hKey);
+		}
+
+		if (pCertContext)
+		{
+			Cleanup(pCertContext, FALSE);
 		}
 	}
 
 	return hr;
 }
 
-void WINAPI ep(PWSTR lpCommandLine)
+void WINAPI ep(void*)
 {	
+	//if (!GetTickCount())
+	//{
+	//	CloseZombie();
+	//}
+	//else
+	//{
+	//	SSHtest();
+	//}
 	//initterm();
+
 	InitPrintf();
-	HRESULT hr;
-	PWSTR argv[9];
-	ULONG argc = 0;
-
-	lpCommandLine = GetCommandLineW();
-
-	while (lpCommandLine = wcschr(lpCommandLine, '*'))
-	{
-		*lpCommandLine++ = 0;
-
-		argv[argc++] = lpCommandLine;
-
-		if (_countof(argv) == argc)
-		{
-			break;
-		}
-	}
-
-	if (!argc)
-	{
-		DbgPrint(
-			"The syntax of this command is:\r\n"
-			"\r\n"
-			"CRT-UT [*ssl*pfx*pass]cmd\r\n"
-			"\twhere cmd:\r\n"
-			"\t\t*cert*pfx*pass\r\n"
-			"\tor\r\n"
-			"\t\t*user[*name*pass]\r\n"
-			);
-		ExitProcess((ULONG)STATUS_INVALID_PARAMETER_MIX);
-	}
-
-	// [*ssl*pfx*pass]cmd
-	// where cmd:
-	// *cert*pfx*pass
-	// or
-	// *user[*name*pass]
-
-	if (IsDebuggerPresent())__debugbreak();
-
-	hr = HRESULT_FROM_NT(STATUS_INVALID_PARAMETER_MIX);
-
-	if (wcscmp(argv[0], L"ssl"))
-	{
-		hr = cmd(argc, argv, 0);
-	}
-	else
-	{
-		if (3 < argc)
-		{
-			PCCERT_CONTEXT pCertContext = 0;
-
-			if (0 <= (hr = PFXImport(argv[1], argv[2], 0, &pCertContext)))
-			{
-				hr = cmd(argc - 3, argv + 3, pCertContext);
-
-				Cleanup(pCertContext, FALSE);
-			}
-		}
-	}
 
 	//destroyterm();
-	ExitProcess(PrintError(hr));
+	ExitProcess(PrintError(cmd(GetCommandLineW())));
 }

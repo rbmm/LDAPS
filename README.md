@@ -1,5 +1,5 @@
 when we use SSL connection to LDAP, inside 
-
+```
 DecryptReturnValues
 LDAP_REQUEST::Authenticate( // Handle authentication exchange.
     CtxtHandle *        phSslSecurityContext,
@@ -25,9 +25,9 @@ exist next code, after AcceptSecurityContext(Schannel) return SEC_E_OK
             *pSslState = Sslpartialbind;
         }
 
-
+```
 in callstack
-
+```
 kerberos.dll!LsaApLogonUserEx2
 lsasrv.dll!LsapCallAuthPackageForLogon + 117
 lsasrv.dll!LsapAuApiDispatchLogonUser + 36b
@@ -124,12 +124,12 @@ ntdsatq.dll!void AtqpProcessContext(ATQ_CONTEXT *,unsigned long,_OVERLAPPED *,in
 ntdsatq.dll!void AtqpProcessContext(ATQ_CONTEXT *,unsigned long,_OVERLAPPED *,int) + 194
 kernel32.dll!BaseThreadInitThunk + 22
 ntdll.dll!RtlUserThreadStart + 34
-
+```
 logon via Kerberos S4U2Self mechanism.
 
 but than inside LDAP_CONN::BindRequest
 
-
+```
 ntdll.dll!ZwCreateTokenEx
 lsasrv.dll!LsapCreateTokenObject + 45c
 lsasrv.dll!LsapCreateTokenEx + 14c
@@ -193,12 +193,12 @@ ntdll.dll!RtlUserThreadStart + 34
                                                   fContextAttributes,
                                                   dwSecContextFlags,
                                                   pErrorMessage);
-
+```
 InstallNewSecurityContext();supersede previous security context from SSL
 
 
 during search request next stack
-
+```
 authz.dll!AuthzAccessCheck
 ntdsai.dll!CheckPermissionsAnyClient + 263
 ntdsai.dll!FindFirstSearchObject + 3d95
@@ -214,13 +214,13 @@ ntdsatq.dll!void AtqpProcessContext(ATQ_CONTEXT *,unsigned long,_OVERLAPPED *,in
 ntdsatq.dll!void AtqpProcessContext(ATQ_CONTEXT *,unsigned long,_OVERLAPPED *,int) + 194
 kernel32.dll!BaseThreadInitThunk + 22
 ntdll.dll!RtlUserThreadStart + 34
-
+```
 the AuthzAccessCheck check client access
 
 AuthzClientContext ( A handle to a structure that represents the client ) init/set in LDAP_SECURITY_CONTEXT::SetClientType
 
 typical call flow with SSL
-
+```
 ++LDAP_SECURITY_CONTEXT<0000002467876270>(0, 0)
 QuerySecurityContextToken<0000002467876270><0000002467875BB0>(0000002466F2ED80)
 LDAP_SECURITY_CONTEXT<0000002467876270>::IsSSLMappedUser "AAA\Kelly"
@@ -239,13 +239,13 @@ AuthzAccessCheck(0000002467C1FE70)
 AuthzAccessCheck(0000002467C1FE70)
 AuthzAccessCheck(0000002467C1FE70)
 --LDAP_SECURITY_CONTEXT<0000002467876150>
-
+```
 (i use SSL certificate for "AAA\Kelly" user and bind as "AAA\Moc" user)
 
 visible that security check was via "AAA\Moc" user
 
 in case no SSL
-
+```
 ++LDAP_SECURITY_CONTEXT<0000002421BCE160>(1, 0)
 LDAP_SECURITY_CONTEXT<0000002421BCE160>::AcceptContext(0)
 LDAP_SECURITY_CONTEXT<0000002421BCE160>::AcceptContext(1)
@@ -258,12 +258,12 @@ AuthzAccessCheck(0000002467BE07F0)
 AuthzAccessCheck(0000002467BE07F0)
 AuthzAccessCheck(0000002467BE07F0)
 --LDAP_SECURITY_CONTEXT<0000002421BCE160>
-
+```
 so unclear what SSL give/sense (we can also use LDAP_OPT_ENCRYPT - Enables/disables Kerberos encryption prior to binding using the LDAP_AUTH_NEGOTIATE flag. Cannot be used over an SSL connection )
 
 also use SSL lead to token handle and logon session became zombie . every new request add new handle/session.
 the schannel close this handles only when FreeCredentialsHandle is called, but ldap server call this only on shutdown..
-
+```
 ntdll.dll!NtClose // close "zombie" token and as result logon session, which he hold, destroyed too
 schannel.dll!virtual void * CSessionCacheServerItem::`vector deleting destructor'(unsigned int)
 schannel.dll!unsigned char CSessionCacheManager::CacheExpireElements(unsigned char,unsigned char)
@@ -296,3 +296,4 @@ rpcrt4.dll!NdrClientCall3 + fe
 sspicli.dll!SspipFreeCredentialsHandle + f9
 sspicli.dll!long LsaFreeCredentialsHandle(_SecHandle *) + 21
 sspicli.dll!FreeCredentialsHandle + 64
+```

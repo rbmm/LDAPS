@@ -1,0 +1,1 @@
+ldaps.exe #user:moc:Cvthnm+yjxM9#base:\configuration#flt:(objectClass=*)#scope:1

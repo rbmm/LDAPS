@@ -1,0 +1,501 @@
+
+C:\vc\crt-ut>crt-ut #user:moc:Cvthnm+yjxM9#base:\configuration#flt:(objectClass=*)#scope:1 
+case 0x1DD523B7: // user = "moc:Cvthnm+yjxM9";
+case 0x554434C0: // base = "\configuration";
+case 0x55CCB9AD: // flt = "(objectClass=*)";
+case 0x2A877344: // scope = "1";
+DN= AAA.ZZZ.COM
+Host= (null)
+[*]	ldap_initW
+SASL_METHOD(GSSAPI)=0
+[*]	ldap_connect
+[*]	ldap_bind_sW
+Query:
+base: CN=configuration,DC=AAA,DC=ZZZ,DC=COM
+filter: (objectClass=*)
+attr:
+[objectClass]:
+[*]	ldap_get_valuesW
+	"top"
+	"container"
+[cn]:
+[*]	ldap_get_valuesW
+	"DisplaySpecifiers"
+[distinguishedName]:
+[*]	ldap_get_valuesW
+	"CN=DisplaySpecifiers,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[instanceType]:
+[*]	ldap_get_valuesW
+	"4"
+[whenCreated]:
+[*]	ldap_get_valuesW
+	"20190628150249.0Z"
+[whenChanged]:
+[*]	ldap_get_valuesW
+	"20190628150249.0Z"
+[uSNCreated]:
+[*]	ldap_get_valuesW
+	"4263"
+[objectVersion]:
+[*]	ldap_get_valuesW
+	"1"
+[uSNChanged]:
+[*]	ldap_get_valuesW
+	"4263"
+[showInAdvancedViewOnly]:
+[*]	ldap_get_valuesW
+	"TRUE"
+[name]:
+[*]	ldap_get_valuesW
+	"DisplaySpecifiers"
+[objectGUID]:
+[*]	ldap_get_valuesW
+	"��O�=�!D�o�y��3"
+[systemFlags]:
+[*]	ldap_get_valuesW
+	"-2147483648"
+[objectCategory]:
+[*]	ldap_get_valuesW
+	"CN=Container,CN=Schema,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[dSCorePropagationData]:
+[*]	ldap_get_valuesW
+	"16010101000000.0Z"
+[objectClass]:
+[*]	ldap_get_valuesW
+	"top"
+	"container"
+[cn]:
+[*]	ldap_get_valuesW
+	"Extended-Rights"
+[distinguishedName]:
+[*]	ldap_get_valuesW
+	"CN=Extended-Rights,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[instanceType]:
+[*]	ldap_get_valuesW
+	"4"
+[whenCreated]:
+[*]	ldap_get_valuesW
+	"20190628150249.0Z"
+[whenChanged]:
+[*]	ldap_get_valuesW
+	"20190628150249.0Z"
+[uSNCreated]:
+[*]	ldap_get_valuesW
+	"4182"
+[uSNChanged]:
+[*]	ldap_get_valuesW
+	"4182"
+[showInAdvancedViewOnly]:
+[*]	ldap_get_valuesW
+	"TRUE"
+[name]:
+[*]	ldap_get_valuesW
+	"Extended-Rights"
+[objectGUID]:
+[*]	ldap_get_valuesW
+	"|݊�YRK���E��O/"
+[systemFlags]:
+[*]	ldap_get_valuesW
+	"-2147483648"
+[objectCategory]:
+[*]	ldap_get_valuesW
+	"CN=Container,CN=Schema,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[dSCorePropagationData]:
+[*]	ldap_get_valuesW
+	"16010101000000.0Z"
+[objectClass]:
+[*]	ldap_get_valuesW
+	"top"
+	"container"
+[cn]:
+[*]	ldap_get_valuesW
+	"ForestUpdates"
+[distinguishedName]:
+[*]	ldap_get_valuesW
+	"CN=ForestUpdates,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[instanceType]:
+[*]	ldap_get_valuesW
+	"4"
+[whenCreated]:
+[*]	ldap_get_valuesW
+	"20190628150254.0Z"
+[whenChanged]:
+[*]	ldap_get_valuesW
+	"20190628150254.0Z"
+[uSNCreated]:
+[*]	ldap_get_valuesW
+	"5691"
+[uSNChanged]:
+[*]	ldap_get_valuesW
+	"5691"
+[showInAdvancedViewOnly]:
+[*]	ldap_get_valuesW
+	"TRUE"
+[name]:
+[*]	ldap_get_valuesW
+	"ForestUpdates"
+[objectGUID]:
+[*]	ldap_get_valuesW
+	"��Eg��H�8�
+;';"
+[objectCategory]:
+[*]	ldap_get_valuesW
+	"CN=Container,CN=Schema,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[dSCorePropagationData]:
+[*]	ldap_get_valuesW
+	"16010101000000.0Z"
+[objectClass]:
+[*]	ldap_get_valuesW
+	"top"
+	"lostAndFound"
+[cn]:
+[*]	ldap_get_valuesW
+	"LostAndFoundConfig"
+[distinguishedName]:
+[*]	ldap_get_valuesW
+	"CN=LostAndFoundConfig,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[instanceType]:
+[*]	ldap_get_valuesW
+	"4"
+[whenCreated]:
+[*]	ldap_get_valuesW
+	"20190628150249.0Z"
+[whenChanged]:
+[*]	ldap_get_valuesW
+	"20190628150249.0Z"
+[uSNCreated]:
+[*]	ldap_get_valuesW
+	"4106"
+[uSNChanged]:
+[*]	ldap_get_valuesW
+	"4106"
+[showInAdvancedViewOnly]:
+[*]	ldap_get_valuesW
+	"TRUE"
+[name]:
+[*]	ldap_get_valuesW
+	"LostAndFoundConfig"
+[objectGUID]:
+[*]	ldap_get_valuesW
+	"̛�D7O�3�t�S�"
+[systemFlags]:
+[*]	ldap_get_valuesW
+	"-2147483648"
+[objectCategory]:
+[*]	ldap_get_valuesW
+	"CN=Lost-And-Found,CN=Schema,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[dSCorePropagationData]:
+[*]	ldap_get_valuesW
+	"16010101000000.0Z"
+[objectClass]:
+[*]	ldap_get_valuesW
+	"top"
+	"msDS-QuotaContainer"
+[cn]:
+[*]	ldap_get_valuesW
+	"NTDS Quotas"
+[description]:
+[*]	ldap_get_valuesW
+	"Quota specifications container"
+[distinguishedName]:
+[*]	ldap_get_valuesW
+	"CN=NTDS Quotas,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[instanceType]:
+[*]	ldap_get_valuesW
+	"4"
+[whenCreated]:
+[*]	ldap_get_valuesW
+	"20190628150254.0Z"
+[whenChanged]:
+[*]	ldap_get_valuesW
+	"20190628150254.0Z"
+[uSNCreated]:
+[*]	ldap_get_valuesW
+	"5818"
+[uSNChanged]:
+[*]	ldap_get_valuesW
+	"5818"
+[showInAdvancedViewOnly]:
+[*]	ldap_get_valuesW
+	"TRUE"
+[name]:
+[*]	ldap_get_valuesW
+	"NTDS Quotas"
+[objectGUID]:
+[*]	ldap_get_valuesW
+	"�@��]d'E�M�aA���"
+[systemFlags]:
+[*]	ldap_get_valuesW
+	"-2147483648"
+[objectCategory]:
+[*]	ldap_get_valuesW
+	"CN=ms-DS-Quota-Container,CN=Schema,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[isCriticalSystemObject]:
+[*]	ldap_get_valuesW
+	"TRUE"
+[dSCorePropagationData]:
+[*]	ldap_get_valuesW
+	"16010101000000.0Z"
+[msDS-TombstoneQuotaFactor]:
+[*]	ldap_get_valuesW
+	"100"
+[objectClass]:
+[*]	ldap_get_valuesW
+	"top"
+	"crossRefContainer"
+[cn]:
+[*]	ldap_get_valuesW
+	"Partitions"
+[distinguishedName]:
+[*]	ldap_get_valuesW
+	"CN=Partitions,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[name]:
+[*]	ldap_get_valuesW
+	"Partitions"
+[objectGUID]:
+[*]	ldap_get_valuesW
+	"hw����F���f�"
+[fSMORoleOwner]:
+[*]	ldap_get_valuesW
+	"CN=NTDS Settings,CN=DC1,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[systemFlags]:
+[*]	ldap_get_valuesW
+	"-2147483648"
+[objectCategory]:
+[*]	ldap_get_valuesW
+	"CN=Cross-Ref-Container,CN=Schema,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[msDS-Behavior-Version]:
+[*]	ldap_get_valuesW
+	"6"
+[objectClass]:
+[*]	ldap_get_valuesW
+	"top"
+	"locality"
+	"physicalLocation"
+[cn]:
+[*]	ldap_get_valuesW
+	"Physical Locations"
+[l]:
+[*]	ldap_get_valuesW
+	"Physical Locations tree root"
+[distinguishedName]:
+[*]	ldap_get_valuesW
+	"CN=Physical Locations,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[instanceType]:
+[*]	ldap_get_valuesW
+	"4"
+[whenCreated]:
+[*]	ldap_get_valuesW
+	"20190628150254.0Z"
+[whenChanged]:
+[*]	ldap_get_valuesW
+	"20190628150254.0Z"
+[uSNCreated]:
+[*]	ldap_get_valuesW
+	"5690"
+[uSNChanged]:
+[*]	ldap_get_valuesW
+	"5690"
+[showInAdvancedViewOnly]:
+[*]	ldap_get_valuesW
+	"TRUE"
+[name]:
+[*]	ldap_get_valuesW
+	"Physical Locations"
+[objectGUID]:
+[*]	ldap_get_valuesW
+	"c����x�F��1)"
+[objectCategory]:
+[*]	ldap_get_valuesW
+	"CN=Physical-Location,CN=Schema,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[dSCorePropagationData]:
+[*]	ldap_get_valuesW
+	"16010101000000.0Z"
+[objectClass]:
+[*]	ldap_get_valuesW
+	"top"
+	"container"
+[cn]:
+[*]	ldap_get_valuesW
+	"Services"
+[distinguishedName]:
+[*]	ldap_get_valuesW
+	"CN=Services,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[instanceType]:
+[*]	ldap_get_valuesW
+	"4"
+[whenCreated]:
+[*]	ldap_get_valuesW
+	"20190628150249.0Z"
+[whenChanged]:
+[*]	ldap_get_valuesW
+	"20190628150249.0Z"
+[uSNCreated]:
+[*]	ldap_get_valuesW
+	"4120"
+[uSNChanged]:
+[*]	ldap_get_valuesW
+	"4120"
+[showInAdvancedViewOnly]:
+[*]	ldap_get_valuesW
+	"TRUE"
+[name]:
+[*]	ldap_get_valuesW
+	"Services"
+[objectGUID]:
+[*]	ldap_get_valuesW
+	"�W�2�lE��ϓ�/F"
+[systemFlags]:
+[*]	ldap_get_valuesW
+	"-2147483648"
+[objectCategory]:
+[*]	ldap_get_valuesW
+	"CN=Container,CN=Schema,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[dSCorePropagationData]:
+[*]	ldap_get_valuesW
+	"16010101000000.0Z"
+[objectClass]:
+[*]	ldap_get_valuesW
+	"top"
+	"sitesContainer"
+[cn]:
+[*]	ldap_get_valuesW
+	"Sites"
+[distinguishedName]:
+[*]	ldap_get_valuesW
+	"CN=Sites,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[instanceType]:
+[*]	ldap_get_valuesW
+	"4"
+[whenCreated]:
+[*]	ldap_get_valuesW
+	"20190628150249.0Z"
+[whenChanged]:
+[*]	ldap_get_valuesW
+	"20190628150249.0Z"
+[uSNCreated]:
+[*]	ldap_get_valuesW
+	"4107"
+[uSNChanged]:
+[*]	ldap_get_valuesW
+	"4107"
+[showInAdvancedViewOnly]:
+[*]	ldap_get_valuesW
+	"TRUE"
+[name]:
+[*]	ldap_get_valuesW
+	"Sites"
+[objectGUID]:
+[*]	ldap_get_valuesW
+	"-�?y��@��!G�	��"
+[systemFlags]:
+[*]	ldap_get_valuesW
+	"-2113929216"
+[objectCategory]:
+[*]	ldap_get_valuesW
+	"CN=Sites-Container,CN=Schema,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[dSCorePropagationData]:
+[*]	ldap_get_valuesW
+	"16010101000000.0Z"
+[objectClass]:
+[*]	ldap_get_valuesW
+	"top"
+	"container"
+[cn]:
+[*]	ldap_get_valuesW
+	"WellKnown Security Principals"
+[distinguishedName]:
+[*]	ldap_get_valuesW
+	"CN=WellKnown Security Principals,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[instanceType]:
+[*]	ldap_get_valuesW
+	"4"
+[whenCreated]:
+[*]	ldap_get_valuesW
+	"20190628150254.0Z"
+[whenChanged]:
+[*]	ldap_get_valuesW
+	"20190628150254.0Z"
+[uSNCreated]:
+[*]	ldap_get_valuesW
+	"5689"
+[uSNChanged]:
+[*]	ldap_get_valuesW
+	"5689"
+[showInAdvancedViewOnly]:
+[*]	ldap_get_valuesW
+	"TRUE"
+[name]:
+[*]	ldap_get_valuesW
+	"WellKnown Security Principals"
+[objectGUID]:
+[*]	ldap_get_valuesW
+	"������RC�hB2�|"
+[systemFlags]:
+[*]	ldap_get_valuesW
+	"-2147483648"
+[objectCategory]:
+[*]	ldap_get_valuesW
+	"CN=Container,CN=Schema,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[dSCorePropagationData]:
+[*]	ldap_get_valuesW
+	"16010101000000.0Z"
+[objectClass]:
+[*]	ldap_get_valuesW
+	"top"
+	"dMD"
+[cn]:
+[*]	ldap_get_valuesW
+	"Schema"
+[distinguishedName]:
+[*]	ldap_get_valuesW
+	"CN=Schema,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[instanceType]:
+[*]	ldap_get_valuesW
+	"13"
+[whenCreated]:
+[*]	ldap_get_valuesW
+	"20190628150248.0Z"
+[whenChanged]:
+[*]	ldap_get_valuesW
+	"20190629195306.0Z"
+[uSNCreated]:
+[*]	ldap_get_valuesW
+	"4103"
+[dSASignature]:
+[*]	ldap_get_valuesW
+	""
+[objectVersion]:
+[*]	ldap_get_valuesW
+	"69"
+[uSNChanged]:
+[*]	ldap_get_valuesW
+	"36940"
+[showInAdvancedViewOnly]:
+[*]	ldap_get_valuesW
+	"TRUE"
+[name]:
+[*]	ldap_get_valuesW
+	"Schema"
+[objectGUID]:
+[*]	ldap_get_valuesW
+	")�]����J�����\"
+[fSMORoleOwner]:
+[*]	ldap_get_valuesW
+	"CN=NTDS Settings,CN=DC1,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[objectCategory]:
+[*]	ldap_get_valuesW
+	"CN=DMD,CN=Schema,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[dSCorePropagationData]:
+[*]	ldap_get_valuesW
+	"16010101000000.0Z"
+[masteredBy]:
+[*]	ldap_get_valuesW
+	"CN=NTDS Settings,CN=DC1,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[msDs-masteredBy]:
+[*]	ldap_get_valuesW
+	"CN=NTDS Settings,CN=DC1,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration,DC=aaa,DC=zzz,DC=com"
+[msDS-NcType]:
+[*]	ldap_get_valuesW
+	"0"
+The operation completed successfully.

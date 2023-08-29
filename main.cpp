@@ -1,7 +1,12 @@
-#include "StdAfx.h"
+#include "pch.h"
+#include "new.hxx"
 
-#include "util.h"
-#include <Http.h>
+_NT_BEGIN
+
+#include "common.h"
+#include "print.hxx"
+#include "file.hxx"
+#include "pfx.hxx"
 
 extern volatile const UCHAR guz = 0;
 
@@ -22,12 +27,6 @@ void PrintCertOp(PCCERT_CONTEXT pCertContext)
 	}
 }
 
-//showmacro(DECLSPEC_IMPORT)
-typedef CONST UCHAR *PCUCHAR;
-void TestDecode(PCUCHAR pb, ULONG cb);
-
-void DumpName(const CERT_NAME_BLOB* Name, PCWSTR msg);
-
 void InitSacl(LDAP* ld)
 {
 	PSecPkgInfoW PackageInfo;
@@ -45,7 +44,7 @@ void InitSacl(LDAP* ld)
 
 		if (ProfileCount)
 		{
-			do 
+			do
 			{
 				if (SEC_E_OK == SaslGetProfilePackageW(ProfileList, &PackageInfo))
 				{
@@ -67,17 +66,9 @@ void InitSacl(LDAP* ld)
 	}
 }
 
-HRESULT PFXImport(_In_ PCWSTR lpFileName, 
-				  _In_ PCWSTR szPassword,
-				  _Out_ PWSTR *ppwszUserName, 
-				  _Out_ PCCERT_CONTEXT* ppCertContext);
-
-void Cleanup(_In_ PWSTR pwszUserName);
-void Cleanup(_In_ PCCERT_CONTEXT pCertContext, _In_ BOOL bInStore);
-
-BOOLEAN _cdecl GetClientCert (_In_ PLDAP Connection,
-							   _In_ PSecPkgContext_IssuerListInfoEx trusted_CAs,
-							   _Inout_ PCCERT_CONTEXT *ppCertificate)
+BOOLEAN _cdecl GetClientCert(_In_ PLDAP Connection,
+	_In_ PSecPkgContext_IssuerListInfoEx trusted_CAs,
+	_Inout_ PCCERT_CONTEXT* ppCertificate)
 {
 	DbgPrint("GetClientCert:\r\n");
 
@@ -90,7 +81,7 @@ BOOLEAN _cdecl GetClientCert (_In_ PLDAP Connection,
 			PCERT_NAME_BLOB Issuer = &pCertificate->pCertInfo->Issuer;
 			PCERT_NAME_BLOB aIssuers = trusted_CAs->aIssuers;
 
-			do 
+			do
 			{
 				if (aIssuers->cbData == Issuer->cbData &&
 					!memcmp(aIssuers->pbData, Issuer->pbData, Issuer->cbData))
@@ -111,10 +102,10 @@ BOOLEAN _cdecl GetClientCert (_In_ PLDAP Connection,
 	return FALSE;
 }
 
-BOOLEAN _cdecl VerifyServerCert (
-								 _In_ PLDAP /*Connection*/,
-								 _In_ PCCERT_CONTEXT* ppServerCert
-								 )
+BOOLEAN _cdecl VerifyServerCert(
+	_In_ PLDAP /*Connection*/,
+	_In_ PCCERT_CONTEXT* ppServerCert
+)
 {
 	PCCERT_CONTEXT pServerCert = *ppServerCert;
 	DbgPrint("ServerCert:\r\n");
@@ -124,33 +115,38 @@ BOOLEAN _cdecl VerifyServerCert (
 	return TRUE;
 }
 
-HRESULT LDAPQuery(_In_ LDAP* ld, _In_ PCWSTR base, _In_ ULONG scope, _In_ PCWSTR filter)
+HRESULT LDAPQuery(_In_ LDAP* ld, _In_ PCWSTR base, _In_ ULONG scope, _In_ PCWSTR filter, _In_ PWSTR attrs[])
 {
 	DbgPrint("Query:\r\nbase: %s\r\nfilter: %s\r\nattr:\r\n", base, filter);
+	if (PWSTR* ppsz = attrs)
+	{
+		while (PWSTR attr = *ppsz++)
+		{
+			DbgPrint("\t[%s]\r\n", attr);
+		}
+	}
 
 	ULONG LdapError;
 	LDAPMessage* res = 0;
 
-	if (LDAP_SUCCESS == (LdapError = ldap_search_sW(ld, const_cast<PWSTR>(base), scope, 
-		const_cast<PWSTR>(filter), 0, FALSE, &res)))
+	if (LDAP_SUCCESS == (LdapError = ldap_search_sW(ld, const_cast<PWSTR>(base), scope,
+		const_cast<PWSTR>(filter), attrs, FALSE, &res)))
 	{
 		if (LDAPMessage* entry = ldap_first_entry(ld, res))
 		{
-			do 
+			do
 			{
 				BerElement* ptr;
 
-				if (PWCHAR attr = ldap_first_attributeW(ld, entry, &ptr))
+				if (PWSTR attr = ldap_first_attributeW(ld, entry, &ptr))
 				{
-					do 
+					do
 					{
 						DbgPrint("[%s]:\r\n", attr);
 
 						if (PWSTR* vals = ldap_get_valuesW(ld, entry, attr))
 						{
-							DbgPrint("[*]	ldap_get_valuesW\r\n");
-
-							PWSTR psz, *ppsz = vals;
+							PWSTR psz, * ppsz = vals;
 							while (psz = *ppsz++)
 							{
 								DbgPrint("\t\"%s\"\r\n", psz);
@@ -172,36 +168,23 @@ HRESULT LDAPQuery(_In_ LDAP* ld, _In_ PCWSTR base, _In_ ULONG scope, _In_ PCWSTR
 	return LdapError;
 }
 
-HRESULT PFXImport(_In_ PCWSTR lpFileName, 
-				  _In_ PCWSTR szPassword,
-				  _Out_ PWSTR *ppwszUserName, 
-				  _Out_ PCCERT_CONTEXT* ppCertContext,
-				  _Out_ NCRYPT_KEY_HANDLE* phKey,
-				  _Out_ PULONG pCrc);
-
-ULONG ldap_connect( LDAP *ld, struct l_timeval *timeout, NCRYPT_KEY_HANDLE* phKey, ULONG crc );
-
 HRESULT LDAPMain(_In_ PWSTR DomainName,
-				 _In_ PWSTR HostName,
-				 _In_ PWSTR Base,
-				 _In_ PWSTR Filter,
-				 _In_ ULONG scope,
-				 _In_ PCWSTR pszUserName, 
-				 _In_ PCWSTR pszPassword, 
-				 _In_ PCCERT_CONTEXT pCertContext, 
-				 _Inout_ NCRYPT_KEY_HANDLE* phKey, 
-				 _In_ ULONG crc)
+	_In_ PWSTR HostName,
+	_In_ PWSTR Base,
+	_In_ PWSTR Filter,
+	_In_ ULONG scope,
+	_In_ PWSTR attrs[],
+	_In_ PCWSTR pszUserName,
+	_In_ PCWSTR pszPassword,
+	_In_ PCCERT_CONTEXT pCertContext,
+	_Inout_ NCRYPT_KEY_HANDLE* phKey,
+	_In_ ULONG crc)
 {
-	if (IsDebuggerPresent())
-	{
-		__debugbreak();
-	}
-
 	DbgPrint("DN= %s\r\nHost= %s\r\n", DomainName, HostName);
 
 	HRESULT hr = S_OK;
 	ULONG LdapError = LDAP_SUCCESS;
-	
+
 	if (LDAP* ld = pCertContext ? ldap_sslinitW(DomainName, LDAP_SSL_PORT, TRUE) : ldap_initW(DomainName, LDAP_PORT))
 	{
 		DbgPrint("[*]	ldap_initW\r\n");
@@ -216,13 +199,11 @@ HRESULT LDAPMain(_In_ PWSTR DomainName,
 			SEC_WINNT_AUTH_IDENTITY_UNICODE
 		};
 
-		LDAP_TIMEVAL timeout = {60};//1 min
-
 		if (pCertContext)
 		{
 			*(PCCERT_CONTEXT*)ld->ld_sb.Reserved2 = pCertContext;// !?
 
-			if (LDAP_SUCCESS != (LdapError = ldap_set_optionW(ld, LDAP_OPT_SSL, LDAP_OPT_ON )) ||
+			if (LDAP_SUCCESS != (LdapError = ldap_set_optionW(ld, LDAP_OPT_SSL, LDAP_OPT_ON)) ||
 				LDAP_SUCCESS != (LdapError = ldap_set_optionW(ld, LDAP_OPT_CLIENT_CERTIFICATE, GetClientCert)) ||
 				LDAP_SUCCESS != (LdapError = ldap_set_optionW(ld, LDAP_OPT_SERVER_CERTIFICATE, VerifyServerCert)))
 			{
@@ -237,7 +218,7 @@ HRESULT LDAPMain(_In_ PWSTR DomainName,
 			ldap_set_optionW(ld, LDAP_OPT_HOST_NAME, &HostName);
 		}
 
-		if (LDAP_SUCCESS == (LdapError = phKey ? ldap_connect(ld, &timeout, phKey, crc) : ldap_connect(ld, &timeout)))
+		if (LDAP_SUCCESS == (LdapError = phKey ? ldap_connect(ld, 0, phKey, crc) : ldap_connect(ld, 0)))
 		{
 			DbgPrint("[*]	ldap_connect\r\n");
 
@@ -245,10 +226,10 @@ HRESULT LDAPMain(_In_ PWSTR DomainName,
 			{
 				DbgPrint("[*]	ldap_bind_sW\r\n");
 
-				LdapError = LDAPQuery(ld, Base, scope, Filter);
+				LdapError = LDAPQuery(ld, Base, scope, Filter, attrs);
 			}
 		}
-__exit:
+	__exit:
 
 		ldap_unbind_s(ld);
 	}
@@ -269,30 +250,6 @@ __exit:
 
 	return HRESULT_FROM_WIN32(hr);
 }
-
-void SSHtest();
-void CloseZombie();
-#if 0
-ULONG WINAPI Wk(HANDLE hDllHandle)
-{
-	SSHtest();
-	FreeLibraryAndExitThread((HMODULE)hDllHandle, 0);
-}
-
-BOOLEAN WINAPI DllMain( HMODULE hDllHandle, DWORD dwReason, LPVOID hThread )
-{
-	if (IsDebuggerPresent()) __debugbreak();
-	if (DLL_PROCESS_ATTACH == dwReason)
-	{
-		DisableThreadLibraryCalls(hDllHandle);
-		if (hThread = CreateThread(0, 0, Wk, hDllHandle, 0, 0))
-		{
-			NtClose(hThread);
-		}
-	}
-	return TRUE;
-}
-#endif
 
 //%% -> %
 //%* -> #
@@ -326,22 +283,27 @@ BOOL UnEscape(_Inout_ PWSTR str)
 
 PWSTR FormatBase(PWSTR Base, PWSTR Domain)
 {
-	PWSTR pc = Base, last;
-	
+	PWSTR pc = Base, last = 0;
+
 	ULONG n = 2, m = 1;
-	
-	size_t cch = wcslen(Base) + wcslen(Domain);
-	
-	while (pc = wcschr(1 + (last = pc), '\\'))
+
+	size_t cch = wcslen(Domain);
+
+	if (Base)
 	{
-		n++;
+		cch += wcslen(Base);
+
+		while (pc = wcschr(1 + (last = pc), '\\'))
+		{
+			n++;
+		}
 	}
-	
+
 	pc = Domain;
 
 	while (pc = wcschr(pc, '.'))
 	{
-		n++, m++, *pc++ = 0;
+		n++, m++, * pc++ = 0;
 	}
 	cch += n * 3 + 1;
 
@@ -349,18 +311,21 @@ PWSTR FormatBase(PWSTR Base, PWSTR Domain)
 	{
 		PWSTR psz = buf;
 
-		for (;;)
+		if (Base)
 		{
-			wcscpy(psz = wcscpy(psz, L"CN=") + 3, last + 1);
-			psz += wcslen(psz);
-			*psz++ = ',';
-			if (last == Base) break;
-			*last = 0;
-			while ('\\' != *--last) ;
+			for (;;)
+			{
+				wcscpy(psz = wcscpy(psz, L"CN=") + 3, last + 1);
+				psz += wcslen(psz);
+				*psz++ = ',';
+				if (last == Base) break;
+				*last = 0;
+				while ('\\' != *--last);
+			}
 		}
 
 		pc = Domain;
-		do 
+		do
 		{
 			wcscpy(psz = wcscpy(psz, L"DC=") + 3, pc);
 			psz += wcslen(psz);
@@ -370,10 +335,10 @@ PWSTR FormatBase(PWSTR Base, PWSTR Domain)
 		} while (--m);
 
 		psz[-1] = 0, pc[-1] = 0;
-		
+
 		return buf;
 	}
-	
+
 	return 0;
 }
 
@@ -382,20 +347,21 @@ HRESULT cmd(PWSTR lpCommandLine)
 	if (IsDebuggerPresent())__debugbreak();
 
 	ULONG scope = MAXDWORD;
-	PWSTR pszDomain = 0, pszHost = 0, pszUserName = 0, pszPassword = 0, pszScope = 0, 
-		pszPfx = 0, pszSslPfx = 0, pszSslPassword = 0, pszBase = 0, pszFilter = 0;
+	PWSTR pszDomain = 0, pszHost = 0, pszUserName = 0, pszPassword = 0, pszScope = 0,
+		pszPfx = 0, pszSslPfx = 0, pszSslPassword = 0, pszBase = 0, pszFilter = 0, pszAttrs = 0;
 
-	// cmd   = #param[#param]
+	// cmd   = #param[#param[#param]]
 	// param = name:value
 	// name:
-	//		dn:
-	//		srv:
-	//		base:
-	//		flt:
+	//		dn: dns.local
+	//		srv: myserver.dns.local
+	//		base: \base
+	//		flt: filter
 	//		scope: 0|1|2
 	//		user: user:pass
 	//		pfx: file:pass
 	//		ssl: file:pass
+	//		attr: attr[;attr[;attr]]
 
 	PWSTR pszValue = 0;
 
@@ -412,14 +378,14 @@ HRESULT cmd(PWSTR lpCommandLine)
 		{
 			DbgPrint("\"%s\";\r\n", pszValue);
 		}
-		
+
 		if (!(pszValue = wcschr(lpCommandLine, ':')))
 		{
 			return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER);
 		}
 
 		ULONG crc = RtlComputeCrc32(0, lpCommandLine, RtlPointerToOffset(lpCommandLine, pszValue));
-		
+
 		*pszValue++ = 0;
 
 		DbgPrint("case 0x%08X: // %s = ", crc, lpCommandLine);
@@ -432,42 +398,47 @@ HRESULT cmd(PWSTR lpCommandLine)
 			if (pszDomain) return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER_MIX);
 			pszDomain = pszValue;
 			break;
-		
+
 		case 0x842768AB: // srv
 			if (pszHost) return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER_MIX);
 			pszHost = pszValue;
 			break;
-		
+
 		case 0x554434C0: // base
 			if (pszBase) return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER_MIX);
 			pszBase = pszValue;
 			break;
-		
-		case 0x55CCB9AD: // flt
-			if (pszFilter) return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER_MIX);
-			pszFilter = pszValue;
-			break;
-		
+
 		case 0x2A877344: // scope
 			if (pszScope) return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER_MIX);
 			pszScope = pszValue;
 			break;
-		
+
+		case 0x55CCB9AD: // flt
+			if (pszFilter) return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER_MIX);
+			pszFilter = pszValue;
+			break;
+
+		case 0x10841C24: // attr
+			if (pszAttrs) return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER_MIX);
+			pszAttrs = pszValue;
+			break;
+
 		case 0x1DD523B7: // user
 			if (pszUserName) return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER_MIX);
 			pszUserName = pszValue;
 			break;
-			
+
 		case 0x434BF743: // pfx
 			if (pszPfx) return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER_MIX);
 			pszPfx = pszValue;
 			break;
-		
+
 		case 0x8CB6F515: // ssl
 			if (pszSslPfx) return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER_MIX);
 			pszSslPfx = pszValue;
 			break;
-		
+
 		default:
 			return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER);
 		}
@@ -483,7 +454,7 @@ HRESULT cmd(PWSTR lpCommandLine)
 	scope = wcstoul(pszScope, &pszScope, 10);
 	if (*pszScope || scope > LDAP_SCOPE_SUBTREE) return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER);
 
-	if (!pszBase || !pszFilter || *pszBase != '\\' || ((0 != pszPfx) && (0 != pszUserName)))
+	if ((pszBase && *pszBase != '\\') || ((0 != pszPfx) && (0 != pszUserName)))
 	{
 		return HRESULT_FROM_NT(STATUS_INVALID_PARAMETER_MIX);
 	}
@@ -524,6 +495,30 @@ HRESULT cmd(PWSTR lpCommandLine)
 		}
 	}
 
+	PWSTR* attrs = 0;
+
+	if (pszAttrs)
+	{
+		ULONG n = 1;
+		pszValue = pszAttrs;
+		while (pszValue = wcschr(pszValue, ';'))
+		{
+			*pszValue++ = 0;
+			n++;
+		}
+
+		attrs = (PWSTR*)alloca((n + 1) * sizeof(PWSTR));
+
+		PWSTR* ppsz = attrs;
+		do
+		{
+			*ppsz++ = pszAttrs;
+			pszAttrs += wcslen(pszAttrs) + 1;
+		} while (--n);
+
+		*ppsz = 0;
+	}
+
 	if (!pszDomain)
 	{
 		ULONG cch = 0;
@@ -556,10 +551,10 @@ HRESULT cmd(PWSTR lpCommandLine)
 		{
 			if (pszBase = FormatBase(pszBase, pszDomain))
 			{
-				hr = LDAPMain(pszDomain, pszHost, pszBase, pszFilter, scope, 
+				hr = LDAPMain(pszDomain, pszHost, pszBase, pszFilter, scope, attrs,
 					pszUserName, pszPfx ? L"" : pszPassword, pCertContext, &hKey, crc);
 
-				delete [] pszBase;
+				delete[] pszBase;
 			}
 
 			if (pszPfx && pszUserName)
@@ -582,20 +577,13 @@ HRESULT cmd(PWSTR lpCommandLine)
 	return hr;
 }
 
-void WINAPI ep(void*)
-{	
-	//if (!GetTickCount())
-	//{
-	//	CloseZombie();
-	//}
-	//else
-	//{
-	//	SSHtest();
-	//}
-	//initterm();
+struct __declspec(uuid("1FC98BCA-1BA9-4397-93F9-349EAD41E057")) RtlpAddVectoredHandler;
 
+void WINAPI ep(ULONG_PTR OldValue)
+{
+	RtlSetProtectedPolicy(&__uuidof(RtlpAddVectoredHandler), 0, &OldValue);
 	InitPrintf();
-
-	//destroyterm();
 	ExitProcess(PrintError(cmd(GetCommandLineW())));
 }
+
+_NT_END

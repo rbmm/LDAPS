@@ -1,6 +1,4 @@
-#include "stdafx.h"
-
-#include "util.h"
+#pragma once
 
 //////////////////////////////////////////////////////////////////////////
 // SSL certificate
@@ -63,7 +61,7 @@ PCCERT_CONTEXT CheckCertForKeyOnly(_In_ PCCERT_CONTEXT pCertContext, _Out_ PCCER
 // SmartCardLogon certificate
 
 BOOLEAN UserNameToCertHash(_In_ PCWSTR pszUserName,
-						   _Out_writes_bytes_opt_(CERT_HASH_LENGTH) PUCHAR rgbHashOfCert)
+	_Out_writes_bytes_opt_(CERT_HASH_LENGTH) PUCHAR rgbHashOfCert)
 {
 	CRED_MARSHAL_TYPE CredType;
 
@@ -112,7 +110,7 @@ void Cleanup(_In_ PWSTR pwszUserName)
 	CredFree(pwszUserName);
 }
 
-PCCERT_CONTEXT CheckCertAndGetName(_In_ PCCERT_CONTEXT pCertContext, _Out_ PWSTR *ppwszUserName)
+PCCERT_CONTEXT CheckCertAndGetName(_In_ PCCERT_CONTEXT pCertContext, _Out_ PWSTR* ppwszUserName)
 {
 	if (!pCertContext)
 	{
@@ -136,8 +134,8 @@ PCCERT_CONTEXT CheckCertAndGetName(_In_ PCCERT_CONTEXT pCertContext, _Out_ PWSTR
 
 			PWSTR pwszUserName;
 
-			if (HR(hr, CryptHashCertificate2(BCRYPT_SHA1_ALGORITHM, 0, 0, 
-				pCertContext->pbCertEncoded, pCertContext->cbCertEncoded, 
+			if (HR(hr, CryptHashCertificate2(BCRYPT_SHA1_ALGORITHM, 0, 0,
+				pCertContext->pbCertEncoded, pCertContext->cbCertEncoded,
 				cci.rgbHashOfCert, &(cb = sizeof(cci.rgbHashOfCert)))) &&
 				HR(hr, CredMarshalCredentialW(CertCredential, &cci, &pwszUserName)))
 			{
@@ -179,8 +177,8 @@ struct NCryptImportKey_Stack
 	_In_    NCRYPT_PROV_HANDLE hProvider;
 	_In_opt_ NCRYPT_KEY_HANDLE hImportKey;
 	_In_    PCWSTR pszBlobType;
-	_In_opt_ NCryptBufferDesc *pParameterList;
-	_Out_   NCRYPT_KEY_HANDLE *phKey;
+	_In_opt_ NCryptBufferDesc* pParameterList;
+	_Out_   NCRYPT_KEY_HANDLE* phKey;
 	_In_ PBYTE pbData;
 	_In_    DWORD_PTR   cbData;
 	_In_    DWORD   dwFlags;
@@ -205,9 +203,9 @@ struct ThreadCtx : public TEB_ACTIVE_FRAME
 
 	static ThreadCtx* get()
 	{
-		if (TEB_ACTIVE_FRAME * frame = RtlGetFrame())
+		if (TEB_ACTIVE_FRAME* frame = RtlGetFrame())
 		{
-			do 
+			do
 			{
 				if (frame->Context->FrameName == FrameName)
 				{
@@ -220,7 +218,7 @@ struct ThreadCtx : public TEB_ACTIVE_FRAME
 	}
 };
 
-struct ImportKeyCtx : public ThreadCtx 
+struct ImportKeyCtx : public ThreadCtx
 {
 	PVOID _M_Address;
 	PCWSTR _M_Password;
@@ -230,7 +228,7 @@ struct ImportKeyCtx : public ThreadCtx
 	ULONG _M_dwFlags = 0;
 	ULONG _M_crc = 0;
 
-	ImportKeyCtx(PVOID Address, PCWSTR Password, NCRYPT_KEY_HANDLE* phMyKey) 
+	ImportKeyCtx(PVOID Address, PCWSTR Password, NCRYPT_KEY_HANDLE* phMyKey)
 		: _M_Address(Address), _M_Password(Password), _M_phMyKey(phMyKey)
 	{
 	}
@@ -312,12 +310,12 @@ SECURITY_STATUS __fastcall AfterNCryptImportKey(SECURITY_STATUS status)
 	return status;
 }
 
-NTSTATUS NTAPI VexImportKey(PEXCEPTION_POINTERS ExceptionInfo)
+NTSTATUS NTAPI VexImportKey(::PEXCEPTION_POINTERS ExceptionInfo)
 {
 	if (ImportKeyCtx* ctx = static_cast<ImportKeyCtx*>(ThreadCtx::get()))
 	{
-		PEXCEPTION_RECORD ExceptionRecord = ExceptionInfo->ExceptionRecord;
-		PCONTEXT ContextRecord = ExceptionInfo->ContextRecord;
+		::PEXCEPTION_RECORD ExceptionRecord = ExceptionInfo->ExceptionRecord;
+		::PCONTEXT ContextRecord = ExceptionInfo->ContextRecord;
 
 		if (ExceptionRecord->ExceptionCode == STATUS_SINGLE_STEP &&
 			ExceptionRecord->ExceptionAddress == (PVOID)ctx->_M_Address)
@@ -330,7 +328,7 @@ NTSTATUS NTAPI VexImportKey(PEXCEPTION_POINTERS ExceptionInfo)
 					{
 						PBCryptBuffer pBuffer = ParameterList->pBuffers;
 
-						do 
+						do
 						{
 							if (NCRYPTBUFFER_PKCS_KEY_NAME == pBuffer->BufferType)
 							{
@@ -339,10 +337,10 @@ NTSTATUS NTAPI VexImportKey(PEXCEPTION_POINTERS ExceptionInfo)
 
 								ParameterList->cBuffers = 1;
 								pBuffer = ParameterList->pBuffers;
-								
+
 								pBuffer->BufferType = NCRYPTBUFFER_PKCS_SECRET;
 								pBuffer->pvBuffer = const_cast<PWSTR>(Password);
-								pBuffer->cbBuffer = ( 1 + (ULONG)wcslen(Password)) * sizeof(WCHAR);
+								pBuffer->cbBuffer = (1 + (ULONG)wcslen(Password)) * sizeof(WCHAR);
 
 								break;
 							}
@@ -360,12 +358,12 @@ NTSTATUS NTAPI VexImportKey(PEXCEPTION_POINTERS ExceptionInfo)
 	return EXCEPTION_CONTINUE_SEARCH;
 }
 
-HRESULT PFXImport(_In_ DATA_BLOB* pPFX, 
-				  _In_ PCWSTR szPassword,
-				  _Out_ PWSTR *ppwszUserName, 
-				  _Out_ PCCERT_CONTEXT* ppCertContext,
-				  _Out_ NCRYPT_KEY_HANDLE* phKey,
-				  _Out_ PULONG pCrc)
+HRESULT PFXImport(_In_ DATA_BLOB* pPFX,
+	_In_ PCWSTR szPassword,
+	_Out_ PWSTR* ppwszUserName,
+	_Out_ PCCERT_CONTEXT* ppCertContext,
+	_Out_ NCRYPT_KEY_HANDLE* phKey,
+	_Out_ PULONG pCrc)
 {
 	HRESULT hr = E_FAIL;
 
@@ -376,7 +374,7 @@ HRESULT PFXImport(_In_ DATA_BLOB* pPFX,
 	{
 		if (PVOID Handle = RtlAddVectoredExceptionHandler(TRUE, VexImportKey))
 		{
-			CONTEXT ctx {};
+			::CONTEXT ctx{};
 			if (ctx.Dr3 = (ULONG_PTR)GetProcAddress(GetModuleHandleW(L"ncrypt.dll"), "NCryptImportKey"))
 			{
 				ctx.Dr6 = 0;
@@ -414,9 +412,9 @@ HRESULT PFXImport(_In_ DATA_BLOB* pPFX,
 
 		union {
 			PVOID pfn;
-			PCCERT_CONTEXT (* CheckCert)(_In_ PCCERT_CONTEXT pCertContext, _Out_ PVOID );
-			PCCERT_CONTEXT (* CheckCert1)(_In_ PCCERT_CONTEXT pCertContext, _Out_ PWSTR *ppwszUserName);
-			PCCERT_CONTEXT (* CheckCert2)(_In_ PCCERT_CONTEXT pCertContext, _Out_ PCCERT_CONTEXT *ppCertContext);
+			PCCERT_CONTEXT(*CheckCert)(_In_ PCCERT_CONTEXT pCertContext, _Out_ PVOID);
+			PCCERT_CONTEXT(*CheckCert1)(_In_ PCCERT_CONTEXT pCertContext, _Out_ PWSTR* ppwszUserName);
+			PCCERT_CONTEXT(*CheckCert2)(_In_ PCCERT_CONTEXT pCertContext, _Out_ PCCERT_CONTEXT* ppCertContext);
 		};
 
 		PVOID pv;
@@ -462,12 +460,12 @@ HRESULT PFXImport(_In_ DATA_BLOB* pPFX,
 	return hr;
 }
 
-HRESULT PFXImport(_In_ PCWSTR lpFileName, 
-				  _In_ PCWSTR szPassword,
-				  _Out_ PWSTR *ppwszUserName, 
-				  _Out_ PCCERT_CONTEXT* ppCertContext,
-				  _Out_ NCRYPT_KEY_HANDLE* phKey,
-				  _Out_ PULONG pCrc)
+HRESULT PFXImport(_In_ PCWSTR lpFileName,
+	_In_ PCWSTR szPassword,
+	_Out_ PWSTR* ppwszUserName,
+	_Out_ PCCERT_CONTEXT* ppCertContext,
+	_Out_ NCRYPT_KEY_HANDLE* phKey,
+	_Out_ PULONG pCrc)
 {
 	if (!lpFileName)
 	{
@@ -493,7 +491,7 @@ HRESULT PFXImport(_In_ PCWSTR lpFileName,
 //////////////////////////////////////////////////////////////////////////
 //
 
-struct OpenKeyCtx : public ThreadCtx 
+struct OpenKeyCtx : public ThreadCtx
 {
 	PVOID _M_Address;
 	NCRYPT_KEY_HANDLE* _M_phKey;
@@ -513,12 +511,12 @@ struct OpenKeyCtx : public ThreadCtx
 	}
 };
 
-NTSTATUS NTAPI VexOpenKey(PEXCEPTION_POINTERS ExceptionInfo)
+NTSTATUS NTAPI VexOpenKey(::PEXCEPTION_POINTERS ExceptionInfo)
 {
 	if (OpenKeyCtx* ctx = static_cast<OpenKeyCtx*>(ThreadCtx::get()))
 	{
-		PEXCEPTION_RECORD ExceptionRecord = ExceptionInfo->ExceptionRecord;
-		PCONTEXT ContextRecord = ExceptionInfo->ContextRecord;
+		::PEXCEPTION_RECORD ExceptionRecord = ExceptionInfo->ExceptionRecord;
+		::PCONTEXT ContextRecord = ExceptionInfo->ContextRecord;
 
 		if (ExceptionRecord->ExceptionCode == STATUS_SINGLE_STEP &&
 			ExceptionRecord->ExceptionAddress == (PVOID)ctx->_M_Address)
@@ -527,7 +525,7 @@ NTSTATUS NTAPI VexOpenKey(PEXCEPTION_POINTERS ExceptionInfo)
 
 			DbgPrint("NCryptOpenKey(%s)\r\n", pszKeyName);
 
-			if (ctx->_M_crc == RtlComputeCrc32(0, pszKeyName, sizeof(WCHAR) * ( 1 + (ULONG)wcslen(pszKeyName) )))
+			if (ctx->_M_crc == RtlComputeCrc32(0, pszKeyName, sizeof(WCHAR) * (1 + (ULONG)wcslen(pszKeyName))))
 			{
 				*(NCRYPT_KEY_HANDLE*)ContextRecord->Rdx = *ctx->_M_phKey;
 				*ctx->_M_phKey = 0;
@@ -545,13 +543,13 @@ NTSTATUS NTAPI VexOpenKey(PEXCEPTION_POINTERS ExceptionInfo)
 	return EXCEPTION_CONTINUE_SEARCH;
 }
 
-ULONG ldap_connect( LDAP *ld, struct l_timeval *timeout, NCRYPT_KEY_HANDLE* phKey, ULONG crc )
+ULONG ldap_connect(LDAP* ld, struct l_timeval* timeout, NCRYPT_KEY_HANDLE* phKey, ULONG crc)
 {
 	ULONG r = LDAP_OTHER;
 
 	if (PVOID Handle = RtlAddVectoredExceptionHandler(TRUE, VexOpenKey))
 	{
-		CONTEXT ctx {};
+		::CONTEXT ctx{};
 		if (ctx.Dr3 = (ULONG_PTR)GetProcAddress(GetModuleHandleW(L"ncrypt.dll"), "NCryptOpenKey"))
 		{
 			ctx.Dr6 = 0;

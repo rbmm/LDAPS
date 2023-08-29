@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#pragma once
 
 void* __cdecl operator new[](size_t ByteSize)
 {

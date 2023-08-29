@@ -1,13 +1,17 @@
-#include "stdafx.h"
-#include "util.h"
+#pragma once
 
-#define _malloca_s(size) ((size) < _ALLOCA_S_THRESHOLD ? alloca(size) : new BYTE[size])
+void PrintWA_v(PCWSTR format, ...);
 
-inline void _freea_s(PVOID pv)
+#define DbgPrint(fmt, ...) PrintWA_v(_CRT_WIDE(fmt), __VA_ARGS__ )
+
+void PrintUTF8(PCWSTR pwz, ULONG cch);
+
+inline void PrintUTF8(PCWSTR pwz)
 {
-	PNT_TIB tib = (PNT_TIB)NtCurrentTeb();
-	if (pv < tib->StackLimit || tib->StackBase <= pv) delete [] pv;
+	PrintUTF8(pwz, (ULONG)wcslen(pwz));
 }
+
+HRESULT PrintError(HRESULT dwError);
 
 static HANDLE _G_hFile = 0;
 static BOOLEAN _G_bConsole = FALSE;
@@ -39,7 +43,7 @@ void PrintUTF8(PCWSTR pwz, ULONG cch)
 			break;
 		}
 
-		if (!(buf = (PSTR)_malloca_s(len)))
+		if (!(buf = (PSTR)_malloca(len)))
 		{
 			break;
 		}
@@ -47,7 +51,7 @@ void PrintUTF8(PCWSTR pwz, ULONG cch)
 
 	if (buf)
 	{
-		_freea_s(buf);
+		_freea(buf);
 	}
 }
 
@@ -67,7 +71,7 @@ void PrintWA_v(PCWSTR format, ...)
 		}
 
 		++len;
-		if (!(buf = (PWSTR)_malloca_s(len * sizeof(WCHAR))))
+		if (!(buf = (PWSTR)_malloca(len * sizeof(WCHAR))))
 		{
 			break;
 		}
@@ -75,7 +79,7 @@ void PrintWA_v(PCWSTR format, ...)
 
 	if (buf)
 	{
-		_freea_s(buf);
+		_freea(buf);
 	}
 }
 
@@ -87,7 +91,7 @@ HRESULT PrintError(HRESULT dwError)
 	if ((dwError & FACILITY_NT_BIT) /*|| (0 > dwError && HRESULT_FACILITY(dwError) == FACILITY_NULL)*/)
 	{
 		dwError &= ~FACILITY_NT_BIT;
-__nt:
+	__nt:
 		dwFlags = FORMAT_MESSAGE_FROM_HMODULE | FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_IGNORE_INSERTS;
 
 		static HMODULE ghnt;
@@ -127,19 +131,19 @@ void InitPrintf()
 	}
 }
 
-HRESULT GetLastHrEx(ULONG dwError /*= GetLastError()*/)
+HRESULT GetLastHrEx(ULONG dwError = GetLastError())
 {
 	NTSTATUS status = RtlGetLastNtStatus();
 	return RtlNtStatusToDosErrorNoTeb(status) == dwError ? HRESULT_FROM_NT(status) : HRESULT_FROM_WIN32(dwError);
 }
 
-void DumpBytesInLine(const UCHAR* pb, ULONG cb, PCSTR prefix /*= ""*/, PCSTR suffix/* = "\n"*/)
+void DumpBytesInLine(const UCHAR* pb, ULONG cb, PCSTR prefix = "", PCSTR suffix = "\n")
 {
 	if (cb)
 	{
 		PSTR psz = 0;
 		ULONG cch = 0;
-		while(CryptBinaryToStringA(pb, cb, CRYPT_STRING_HEXRAW|CRYPT_STRING_NOCRLF, psz, &cch))
+		while (CryptBinaryToStringA(pb, cb, CRYPT_STRING_HEXRAW | CRYPT_STRING_NOCRLF, psz, &cch))
 		{
 			if (psz)
 			{

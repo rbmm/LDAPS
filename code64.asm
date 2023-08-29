@@ -1,15 +1,14 @@
 
-; long __cdecl AfterNCryptImportKey(long)
-extern ?AfterNCryptImportKey@@YAJJ@Z : PROC
+; long __cdecl NT::AfterNCryptImportKey(long)
+extern ?AfterNCryptImportKey@NT@@YAJJ@Z : PROC
 
 .code
 
-; void __cdecl aAfterNCryptImportKey(void)
-?aAfterNCryptImportKey@@YAXXZ proc
+; void __cdecl NT::aAfterNCryptImportKey(void)
+?aAfterNCryptImportKey@NT@@YAXXZ proc
 	mov ecx,eax
-	call ?AfterNCryptImportKey@@YAJJ@Z
+	call ?AfterNCryptImportKey@NT@@YAJJ@Z
 	int 3
-?aAfterNCryptImportKey@@YAXXZ endp
-
+?aAfterNCryptImportKey@NT@@YAXXZ endp
 
 end

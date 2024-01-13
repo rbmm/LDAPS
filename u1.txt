@@ -1,0 +1,1870 @@
+case 0x2A877344: // scope = "1";
+case 0x554434C0: // base = "\Users ";
+DN= RBMM.LOCAL
+Host= (null)
+[*]	ldap_initW
+SASL_METHOD(GSSAPI)=0
+[*]	ldap_connect
+[*]	ldap_bind_sW
+Query:
+base: CN=Users ,DC=RBMM,DC=LOCAL
+filter: (null)
+attr:
+[objectClass]:
+	"top"
+	"person"
+	"organizationalPerson"
+	"user"
+[cn]:
+	"admin"
+[description]:
+	""
+[givenName]:
+	"admin"
+[distinguishedName]:
+	"CN=admin,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190754.0Z"
+[whenChanged]:
+	"20230911163003.0Z"
+[displayName]:
+	"admin"
+[uSNCreated]:
+	"8200"
+[memberOf]:
+	"CN=Domain Admins,CN=Users,DC=RBMM,DC=local"
+	"CN=Administrators,CN=Builtin,DC=RBMM,DC=local"
+[uSNChanged]:
+	"983290"
+[name]:
+	"admin"
+[objectGUID]:
+	"R �?�D���e45"
+[userAccountControl]:
+	"328192"
+[badPwdCount]:
+	"0"
+[codePage]:
+	"0"
+[countryCode]:
+	"0"
+[badPasswordTime]:
+	"133233485164930644"
+[lastLogoff]:
+	"0"
+[lastLogon]:
+	"133388094505994788"
+[logonHours]:
+	"���������������������"
+[pwdLastSet]:
+	"132852783150197937"
+[primaryGroupID]:
+	"513"
+[objectSid]:
+	""
+[adminCount]:
+	"1"
+[accountExpires]:
+	"0"
+[logonCount]:
+	"1376"
+[sAMAccountName]:
+	"admin"
+[sAMAccountType]:
+	"805306368"
+[userPrincipalName]:
+	"admin@RBMM.local"
+[objectCategory]:
+	"CN=Person,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[dSCorePropagationData]:
+	"20230403191538.0Z"
+	"20230403185730.0Z"
+	"20230224161027.0Z"
+	"20230224155429.0Z"
+	"16010101000000.0Z"
+[lastLogonTimestamp]:
+	"133384878341378680"
+[objectClass]:
+	"top"
+	"person"
+	"organizationalPerson"
+	"user"
+[cn]:
+	"Administrator"
+[description]:
+	"Built-in account for administering the computer/domain"
+[userCertificate]:
+	"0��0�Ѡz"
+	"0��0�Ѡz"
+	"0��0�Ѡz"
+	"0�20��z"
+[distinguishedName]:
+	"CN=Administrator,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190754.0Z"
+[whenChanged]:
+	"20230909114449.0Z"
+[uSNCreated]:
+	"8196"
+[memberOf]:
+	"CN=WseInvisibleToDashboard,CN=Users,DC=RBMM,DC=local"
+	"CN=Group Policy Creator Owners,CN=Users,DC=RBMM,DC=local"
+	"CN=Domain Admins,CN=Users,DC=RBMM,DC=local"
+	"CN=Enterprise Admins,CN=Users,DC=RBMM,DC=local"
+	"CN=Schema Admins,CN=Users,DC=RBMM,DC=local"
+	"CN=Administrators,CN=Builtin,DC=RBMM,DC=local"
+[uSNChanged]:
+	"962805"
+[name]:
+	"Administrator"
+[objectGUID]:
+	"p�o�Q2P@��d4�p�"
+[userAccountControl]:
+	"66048"
+[badPwdCount]:
+	"0"
+[codePage]:
+	"0"
+[countryCode]:
+	"0"
+[badPasswordTime]:
+	"133385758427804813"
+[lastLogoff]:
+	"0"
+[lastLogon]:
+	"133389841758254337"
+[logonHours]:
+	"���������������������"
+[pwdLastSet]:
+	"133385760262962385"
+[primaryGroupID]:
+	"513"
+[objectSid]:
+	""
+[adminCount]:
+	"1"
+[accountExpires]:
+	"0"
+[logonCount]:
+	"1124"
+[sAMAccountName]:
+	"Administrator"
+[sAMAccountType]:
+	"805306368"
+[lockoutTime]:
+	"0"
+[objectCategory]:
+	"CN=Person,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[isCriticalSystemObject]:
+	"TRUE"
+[dSCorePropagationData]:
+	"20230403191538.0Z"
+	"20230403185730.0Z"
+	"20230224161027.0Z"
+	"20230224155429.0Z"
+	"16010101000000.0Z"
+[lastLogonTimestamp]:
+	"133387334892599257"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"Allowed RODC Password Replication Group"
+[description]:
+	"Members in this group can have their passwords replicated to all read-only domain controllers in the domain"
+[distinguishedName]:
+	"CN=Allowed RODC Password Replication Group,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190830.0Z"
+[whenChanged]:
+	"20211229190830.0Z"
+[uSNCreated]:
+	"12405"
+[uSNChanged]:
+	"12407"
+[name]:
+	"Allowed RODC Password Replication Group"
+[objectGUID]:
+	"��G�}B��l�YN��"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"Allowed RODC Password Replication Group"
+[sAMAccountType]:
+	"536870912"
+[groupType]:
+	"-2147483644"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[isCriticalSystemObject]:
+	"TRUE"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"20211229190830.0Z"
+	"16010101181633.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"Cert Publishers"
+[description]:
+	"Members of this group are permitted to publish certificates to the directory"
+[member]:
+	"CN=WIN-DKJ6V8E19JS,CN=Computers,DC=RBMM,DC=local"
+	"CN=RBMMSERVER,OU=Domain Controllers,DC=RBMM,DC=local"
+[distinguishedName]:
+	"CN=Cert Publishers,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190830.0Z"
+[whenChanged]:
+	"20230817001950.0Z"
+[uSNCreated]:
+	"12342"
+[memberOf]:
+	"CN=Denied RODC Password Replication Group,CN=Users,DC=RBMM,DC=local"
+[uSNChanged]:
+	"905573"
+[name]:
+	"Cert Publishers"
+[objectGUID]:
+	"繸��A��UKj"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"Cert Publishers"
+[sAMAccountType]:
+	"536870912"
+[groupType]:
+	"-2147483644"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[isCriticalSystemObject]:
+	"TRUE"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"20211229190830.0Z"
+	"16010101181633.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"Cloneable Domain Controllers"
+[description]:
+	"Members of this group that are domain controllers may be cloned."
+[distinguishedName]:
+	"CN=Cloneable Domain Controllers,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190830.0Z"
+[whenChanged]:
+	"20211229190830.0Z"
+[uSNCreated]:
+	"12443"
+[uSNChanged]:
+	"12445"
+[name]:
+	"Cloneable Domain Controllers"
+[objectGUID]:
+	"�X�`�^H��jɾ��;"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"Cloneable Domain Controllers"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483646"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[isCriticalSystemObject]:
+	"TRUE"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"20211229190830.0Z"
+	"16010101181633.0Z"
+[objectClass]:
+	"top"
+	"person"
+	"organizationalPerson"
+	"user"
+[cn]:
+	"DefaultAccount"
+[description]:
+	"A user account managed by the system."
+[distinguishedName]:
+	"CN=DefaultAccount,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190754.0Z"
+[whenChanged]:
+	"20211229190754.0Z"
+[uSNCreated]:
+	"8198"
+[memberOf]:
+	"CN=System Managed Accounts Group,CN=Builtin,DC=RBMM,DC=local"
+[uSNChanged]:
+	"8198"
+[name]:
+	"DefaultAccount"
+[objectGUID]:
+	"�0��!B�G������"
+[userAccountControl]:
+	"66082"
+[badPwdCount]:
+	"0"
+[codePage]:
+	"0"
+[countryCode]:
+	"0"
+[badPasswordTime]:
+	"0"
+[lastLogoff]:
+	"0"
+[lastLogon]:
+	"0"
+[pwdLastSet]:
+	"0"
+[primaryGroupID]:
+	"513"
+[objectSid]:
+	""
+[accountExpires]:
+	"9223372036854775807"
+[logonCount]:
+	"0"
+[sAMAccountName]:
+	"DefaultAccount"
+[sAMAccountType]:
+	"805306368"
+[objectCategory]:
+	"CN=Person,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[isCriticalSystemObject]:
+	"TRUE"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"20211229190830.0Z"
+	"16010101181633.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"Denied RODC Password Replication Group"
+[description]:
+	"Members in this group cannot have their passwords replicated to any read-only domain controllers in the domain"
+[member]:
+	"CN=Read-only Domain Controllers,CN=Users,DC=RBMM,DC=local"
+	"CN=Group Policy Creator Owners,CN=Users,DC=RBMM,DC=local"
+	"CN=Domain Admins,CN=Users,DC=RBMM,DC=local"
+	"CN=Cert Publishers,CN=Users,DC=RBMM,DC=local"
+	"CN=Enterprise Admins,CN=Users,DC=RBMM,DC=local"
+	"CN=Schema Admins,CN=Users,DC=RBMM,DC=local"
+	"CN=Domain Controllers,CN=Users,DC=RBMM,DC=local"
+	"CN=krbtgt,CN=Users,DC=RBMM,DC=local"
+[distinguishedName]:
+	"CN=Denied RODC Password Replication Group,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190830.0Z"
+[whenChanged]:
+	"20211229190830.0Z"
+[uSNCreated]:
+	"12408"
+[uSNChanged]:
+	"12436"
+[name]:
+	"Denied RODC Password Replication Group"
+[objectGUID]:
+	"�=�
+W�M�Z��"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"Denied RODC Password Replication Group"
+[sAMAccountType]:
+	"536870912"
+[groupType]:
+	"-2147483644"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[isCriticalSystemObject]:
+	"TRUE"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"20211229190830.0Z"
+	"16010101181633.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"DnsAdmins"
+[description]:
+	"DNS Administrators Group"
+[distinguishedName]:
+	"CN=DnsAdmins,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190910.0Z"
+[whenChanged]:
+	"20211229190910.0Z"
+[uSNCreated]:
+	"12486"
+[uSNChanged]:
+	"12488"
+[name]:
+	"DnsAdmins"
+[objectGUID]:
+	"ҩw�}tRB�&s����:"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"DnsAdmins"
+[sAMAccountType]:
+	"536870912"
+[groupType]:
+	"-2147483644"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"16010101000417.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"DnsUpdateProxy"
+[description]:
+	"DNS clients who are permitted to perform dynamic updates on behalf of some other clients (such as DHCP servers)."
+[distinguishedName]:
+	"CN=DnsUpdateProxy,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190910.0Z"
+[whenChanged]:
+	"20211229190910.0Z"
+[uSNCreated]:
+	"12491"
+[uSNChanged]:
+	"12491"
+[name]:
+	"DnsUpdateProxy"
+[objectGUID]:
+	"*o��E�� ~F��"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"DnsUpdateProxy"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483646"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"16010101000417.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"Domain Admins"
+[description]:
+	"Designated administrators of the domain"
+[member]:
+	"CN=rbmm,CN=Users,DC=RBMM,DC=local"
+	"CN=admin,CN=Users,DC=RBMM,DC=local"
+	"CN=Administrator,CN=Users,DC=RBMM,DC=local"
+[distinguishedName]:
+	"CN=Domain Admins,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190830.0Z"
+[whenChanged]:
+	"20230403191538.0Z"
+[uSNCreated]:
+	"12345"
+[memberOf]:
+	"CN=WseRemoteAccessUsers,CN=Users,DC=RBMM,DC=local"
+	"CN=WseAlertAdministrators,CN=Users,DC=RBMM,DC=local"
+	"CN=WseAllowHomePageLinks,CN=Users,DC=RBMM,DC=local"
+	"CN=WseAllowDashboardAccess,CN=Users,DC=RBMM,DC=local"
+	"CN=WseAllowAddInAccess,CN=Users,DC=RBMM,DC=local"
+	"CN=WseAllowMediaAccess,CN=Users,DC=RBMM,DC=local"
+	"CN=WseAllowComputerAccess,CN=Users,DC=RBMM,DC=local"
+	"CN=WseAllowShareAccess,CN=Users,DC=RBMM,DC=local"
+	"CN=WseRemoteWebAccessUsers,CN=Users,DC=RBMM,DC=local"
+	"CN=Denied RODC Password Replication Group,CN=Users,DC=RBMM,DC=local"
+	"CN=Administrators,CN=Builtin,DC=RBMM,DC=local"
+[uSNChanged]:
+	"684262"
+[name]:
+	"Domain Admins"
+[objectGUID]:
+	"Y����N��7����"
+[objectSid]:
+	""
+[adminCount]:
+	"1"
+[sAMAccountName]:
+	"Domain Admins"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483646"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[isCriticalSystemObject]:
+	"TRUE"
+[dSCorePropagationData]:
+	"20230403191538.0Z"
+	"20230403185730.0Z"
+	"20230224161027.0Z"
+	"20230224155429.0Z"
+	"16010101000000.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"Domain Computers"
+[description]:
+	"All workstations and servers joined to the domain"
+[distinguishedName]:
+	"CN=Domain Computers,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190830.0Z"
+[whenChanged]:
+	"20211229190830.0Z"
+[uSNCreated]:
+	"12330"
+[uSNChanged]:
+	"12332"
+[name]:
+	"Domain Computers"
+[objectGUID]:
+	"�*�]�J��`�!Q"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"Domain Computers"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483646"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[isCriticalSystemObject]:
+	"TRUE"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"20211229190830.0Z"
+	"16010101181633.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"Domain Controllers"
+[description]:
+	"All domain controllers in the domain"
+[member]:
+	"CN=WIN-DKJ6V8E19JS,CN=Computers,DC=RBMM,DC=local"
+[distinguishedName]:
+	"CN=Domain Controllers,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190830.0Z"
+[whenChanged]:
+	"20230818094946.0Z"
+[uSNCreated]:
+	"12333"
+[memberOf]:
+	"CN=Denied RODC Password Replication Group,CN=Users,DC=RBMM,DC=local"
+[uSNChanged]:
+	"917772"
+[name]:
+	"Domain Controllers"
+[objectGUID]:
+	"��`��z�N��%�Ŕ(�"
+[objectSid]:
+	""
+[adminCount]:
+	"1"
+[sAMAccountName]:
+	"Domain Controllers"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483646"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[isCriticalSystemObject]:
+	"TRUE"
+[dSCorePropagationData]:
+	"20230403191538.0Z"
+	"20230403185730.0Z"
+	"20230224161027.0Z"
+	"20230224155429.0Z"
+	"16010101000000.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"Domain Guests"
+[description]:
+	"All domain guests"
+[distinguishedName]:
+	"CN=Domain Guests,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190830.0Z"
+[whenChanged]:
+	"20211229190830.0Z"
+[uSNCreated]:
+	"12351"
+[memberOf]:
+	"CN=Guests,CN=Builtin,DC=RBMM,DC=local"
+[uSNChanged]:
+	"12353"
+[name]:
+	"Domain Guests"
+[objectGUID]:
+	"�n��oC� c�"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"Domain Guests"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483646"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[isCriticalSystemObject]:
+	"TRUE"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"20211229190830.0Z"
+	"16010101181633.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"Domain Users"
+[description]:
+	"All domain users"
+[distinguishedName]:
+	"CN=Domain Users,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190830.0Z"
+[whenChanged]:
+	"20211229190830.0Z"
+[uSNCreated]:
+	"12348"
+[memberOf]:
+	"CN=Users,CN=Builtin,DC=RBMM,DC=local"
+[uSNChanged]:
+	"12350"
+[name]:
+	"Domain Users"
+[objectGUID]:
+	"��>Ȃ)F���g�"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"Domain Users"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483646"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[isCriticalSystemObject]:
+	"TRUE"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"20211229190830.0Z"
+	"16010101181633.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"Enterprise Admins"
+[description]:
+	"Designated administrators of the enterprise"
+[member]:
+	"CN=Administrator,CN=Users,DC=RBMM,DC=local"
+[distinguishedName]:
+	"CN=Enterprise Admins,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190830.0Z"
+[whenChanged]:
+	"20230403191538.0Z"
+[uSNCreated]:
+	"12339"
+[memberOf]:
+	"CN=Denied RODC Password Replication Group,CN=Users,DC=RBMM,DC=local"
+	"CN=Administrators,CN=Builtin,DC=RBMM,DC=local"
+[uSNChanged]:
+	"684263"
+[name]:
+	"Enterprise Admins"
+[objectGUID]:
+	"e�=��B���2�oD"
+[objectSid]:
+	""
+[adminCount]:
+	"1"
+[sAMAccountName]:
+	"Enterprise Admins"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483640"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[isCriticalSystemObject]:
+	"TRUE"
+[dSCorePropagationData]:
+	"20230403191538.0Z"
+	"20230403185730.0Z"
+	"20230224161027.0Z"
+	"20230224155429.0Z"
+	"16010101000000.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"Enterprise Key Admins"
+[description]:
+	"Members of this group can perform administrative actions on key objects within the forest."
+[distinguishedName]:
+	"CN=Enterprise Key Admins,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190830.0Z"
+[whenChanged]:
+	"20211229190830.0Z"
+[uSNCreated]:
+	"12456"
+[uSNChanged]:
+	"12458"
+[name]:
+	"Enterprise Key Admins"
+[objectGUID]:
+	"/���e�"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"Enterprise Key Admins"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483640"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[isCriticalSystemObject]:
+	"TRUE"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"20211229190830.0Z"
+	"16010101181633.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"Enterprise Read-only Domain Controllers"
+[description]:
+	"Members of this group are Read-Only Domain Controllers in the enterprise"
+[distinguishedName]:
+	"CN=Enterprise Read-only Domain Controllers,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190830.0Z"
+[whenChanged]:
+	"20211229190830.0Z"
+[uSNCreated]:
+	"12432"
+[uSNChanged]:
+	"12434"
+[name]:
+	"Enterprise Read-only Domain Controllers"
+[objectGUID]:
+	"��!�W�*B�fE���=�"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"Enterprise Read-only Domain Controllers"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483640"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[isCriticalSystemObject]:
+	"TRUE"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"20211229190830.0Z"
+	"16010101181633.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"Group Policy Creator Owners"
+[description]:
+	"Members in this group can modify group policy for the domain"
+[member]:
+	"CN=Administrator,CN=Users,DC=RBMM,DC=local"
+[distinguishedName]:
+	"CN=Group Policy Creator Owners,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190830.0Z"
+[whenChanged]:
+	"20211229190830.0Z"
+[uSNCreated]:
+	"12354"
+[memberOf]:
+	"CN=Denied RODC Password Replication Group,CN=Users,DC=RBMM,DC=local"
+[uSNChanged]:
+	"12391"
+[name]:
+	"Group Policy Creator Owners"
+[objectGUID]:
+	"�ſ?>�O�#��W�#"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"Group Policy Creator Owners"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483646"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[isCriticalSystemObject]:
+	"TRUE"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"20211229190830.0Z"
+	"16010101181633.0Z"
+[objectClass]:
+	"top"
+	"person"
+	"organizationalPerson"
+	"user"
+[cn]:
+	"Guest"
+[description]:
+	"Built-in account for guest access to the computer/domain"
+[distinguishedName]:
+	"CN=Guest,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190754.0Z"
+[whenChanged]:
+	"20211229190754.0Z"
+[uSNCreated]:
+	"8197"
+[memberOf]:
+	"CN=Guests,CN=Builtin,DC=RBMM,DC=local"
+[uSNChanged]:
+	"8197"
+[name]:
+	"Guest"
+[objectGUID]:
+	"�"
+[userAccountControl]:
+	"66082"
+[badPwdCount]:
+	"0"
+[codePage]:
+	"0"
+[countryCode]:
+	"0"
+[badPasswordTime]:
+	"0"
+[lastLogoff]:
+	"0"
+[lastLogon]:
+	"0"
+[pwdLastSet]:
+	"0"
+[primaryGroupID]:
+	"514"
+[objectSid]:
+	""
+[accountExpires]:
+	"9223372036854775807"
+[logonCount]:
+	"0"
+[sAMAccountName]:
+	"Guest"
+[sAMAccountType]:
+	"805306368"
+[objectCategory]:
+	"CN=Person,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[isCriticalSystemObject]:
+	"TRUE"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"20211229190830.0Z"
+	"16010101181633.0Z"
+[objectClass]:
+	"top"
+	"person"
+	"organizationalPerson"
+	"user"
+[cn]:
+	"Harry"
+[description]:
+	""
+[distinguishedName]:
+	"CN=Harry,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190754.0Z"
+[whenChanged]:
+	"20230911163029.0Z"
+[uSNCreated]:
+	"8199"
+[memberOf]:
+	"CN=Remote Desktop Users,CN=Builtin,DC=RBMM,DC=local"
+	"CN=Users,CN=Builtin,DC=RBMM,DC=local"
+	"CN=Administrators,CN=Builtin,DC=RBMM,DC=local"
+[uSNChanged]:
+	"983291"
+[name]:
+	"Harry"
+[objectGUID]:
+	"J�Pd3@�.w!��2"
+[userAccountControl]:
+	"328224"
+[badPwdCount]:
+	"2"
+[codePage]:
+	"1252"
+[countryCode]:
+	"1"
+[badPasswordTime]:
+	"133388465938307801"
+[lastLogoff]:
+	"0"
+[lastLogon]:
+	"133385764570704894"
+[logonHours]:
+	"���������������������"
+[pwdLastSet]:
+	"133385772177036223"
+[primaryGroupID]:
+	"513"
+[objectSid]:
+	""
+[adminCount]:
+	"1"
+[accountExpires]:
+	"0"
+[logonCount]:
+	"373"
+[sAMAccountName]:
+	"Harry"
+[sAMAccountType]:
+	"805306368"
+[objectCategory]:
+	"CN=Person,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[dSCorePropagationData]:
+	"20230403191538.0Z"
+	"20230403185730.0Z"
+	"20230224161027.0Z"
+	"20230224155429.0Z"
+	"16010101000000.0Z"
+[lastLogonTimestamp]:
+	"133378107945542939"
+[msDS-SupportedEncryptionTypes]:
+	"0"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"Key Admins"
+[description]:
+	"Members of this group can perform administrative actions on key objects within the domain."
+[distinguishedName]:
+	"CN=Key Admins,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190830.0Z"
+[whenChanged]:
+	"20211229190830.0Z"
+[uSNCreated]:
+	"12453"
+[uSNChanged]:
+	"12455"
+[name]:
+	"Key Admins"
+[objectGUID]:
+	"�8���C�h�K��("
+[objectSid]:
+	""
+[sAMAccountName]:
+	"Key Admins"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483646"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[isCriticalSystemObject]:
+	"TRUE"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"20211229190830.0Z"
+	"16010101181633.0Z"
+[objectClass]:
+	"top"
+	"person"
+	"organizationalPerson"
+	"user"
+[cn]:
+	"krbtgt"
+[description]:
+	"Key Distribution Center Service Account"
+[distinguishedName]:
+	"CN=krbtgt,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190830.0Z"
+[whenChanged]:
+	"20230403191538.0Z"
+[uSNCreated]:
+	"12324"
+[memberOf]:
+	"CN=Denied RODC Password Replication Group,CN=Users,DC=RBMM,DC=local"
+[uSNChanged]:
+	"684273"
+[showInAdvancedViewOnly]:
+	"TRUE"
+[name]:
+	"krbtgt"
+[objectGUID]:
+	"Y�*��@�n���=�^"
+[userAccountControl]:
+	"514"
+[badPwdCount]:
+	"0"
+[codePage]:
+	"0"
+[countryCode]:
+	"0"
+[badPasswordTime]:
+	"0"
+[lastLogoff]:
+	"0"
+[lastLogon]:
+	"0"
+[pwdLastSet]:
+	"132852785102003178"
+[primaryGroupID]:
+	"513"
+[objectSid]:
+	""
+[adminCount]:
+	"1"
+[accountExpires]:
+	"9223372036854775807"
+[logonCount]:
+	"0"
+[sAMAccountName]:
+	"krbtgt"
+[sAMAccountType]:
+	"805306368"
+[servicePrincipalName]:
+	"kadmin/changepw"
+[objectCategory]:
+	"CN=Person,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[isCriticalSystemObject]:
+	"TRUE"
+[dSCorePropagationData]:
+	"20230403191538.0Z"
+	"20230403185730.0Z"
+	"20230224161027.0Z"
+	"20230224155429.0Z"
+	"16010101000000.0Z"
+[msDS-SupportedEncryptionTypes]:
+	"0"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"Protected Users"
+[description]:
+	"Members of this group are afforded additional protections against authentication security threats. See http://go.microsoft.com/fwlink/?LinkId=298939 for more information."
+[distinguishedName]:
+	"CN=Protected Users,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190830.0Z"
+[whenChanged]:
+	"20220906200845.0Z"
+[uSNCreated]:
+	"12448"
+[uSNChanged]:
+	"422012"
+[name]:
+	"Protected Users"
+[objectGUID]:
+	"ٝ�a��vI���N�i>"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"Protected Users"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483646"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[isCriticalSystemObject]:
+	"TRUE"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"20211229190830.0Z"
+	"16010101181633.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"RAS and IAS Servers"
+[description]:
+	"Servers in this group can access remote access properties of users"
+[distinguishedName]:
+	"CN=RAS and IAS Servers,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190830.0Z"
+[whenChanged]:
+	"20211229190830.0Z"
+[uSNCreated]:
+	"12357"
+[uSNChanged]:
+	"12359"
+[name]:
+	"RAS and IAS Servers"
+[objectGUID]:
+	"�I�
+��B�p���"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"RAS and IAS Servers"
+[sAMAccountType]:
+	"536870912"
+[groupType]:
+	"-2147483644"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[isCriticalSystemObject]:
+	"TRUE"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"20211229190830.0Z"
+	"16010101181633.0Z"
+[objectClass]:
+	"top"
+	"person"
+	"organizationalPerson"
+	"user"
+[cn]:
+	"rbmm"
+[description]:
+	""
+[givenName]:
+	"rbmm"
+[distinguishedName]:
+	"CN=rbmm,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20230226142034.0Z"
+[whenChanged]:
+	"20230911163058.0Z"
+[displayName]:
+	"rbmm"
+[uSNCreated]:
+	"585919"
+[memberOf]:
+	"CN=Domain Admins,CN=Users,DC=RBMM,DC=local"
+	"CN=Administrators,CN=Builtin,DC=RBMM,DC=local"
+[uSNChanged]:
+	"983292"
+[name]:
+	"rbmm"
+[objectGUID]:
+	"�F���hM�v����"
+[userAccountControl]:
+	"262656"
+[badPwdCount]:
+	"0"
+[codePage]:
+	"0"
+[countryCode]:
+	"0"
+[badPasswordTime]:
+	"133362391421934021"
+[lastLogoff]:
+	"0"
+[lastLogon]:
+	"133387728029361243"
+[pwdLastSet]:
+	"133239188757530579"
+[primaryGroupID]:
+	"513"
+[objectSid]:
+	""
+[adminCount]:
+	"1"
+[accountExpires]:
+	"9223372036854775807"
+[logonCount]:
+	"524"
+[sAMAccountName]:
+	"rbmm"
+[sAMAccountType]:
+	"805306368"
+[userPrincipalName]:
+	"rbmm@RBMM.local"
+[objectCategory]:
+	"CN=Person,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[dSCorePropagationData]:
+	"20230403191538.0Z"
+	"20230403185730.0Z"
+	"20230226145632.0Z"
+	"16010101000000.0Z"
+[lastLogonTimestamp]:
+	"133387645721562622"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"Read-only Domain Controllers"
+[description]:
+	"Members of this group are Read-Only Domain Controllers in the domain"
+[distinguishedName]:
+	"CN=Read-only Domain Controllers,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190830.0Z"
+[whenChanged]:
+	"20230403191538.0Z"
+[uSNCreated]:
+	"12422"
+[memberOf]:
+	"CN=Denied RODC Password Replication Group,CN=Users,DC=RBMM,DC=local"
+[uSNChanged]:
+	"684275"
+[name]:
+	"Read-only Domain Controllers"
+[objectGUID]:
+	"�'?o�B��1�UI6"
+[objectSid]:
+	""
+[adminCount]:
+	"1"
+[sAMAccountName]:
+	"Read-only Domain Controllers"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483646"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[isCriticalSystemObject]:
+	"TRUE"
+[dSCorePropagationData]:
+	"20230403191538.0Z"
+	"20230403185730.0Z"
+	"20230224161027.0Z"
+	"20230224155429.0Z"
+	"16010101000000.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"Schema Admins"
+[description]:
+	"Designated administrators of the schema"
+[member]:
+	"CN=Administrator,CN=Users,DC=RBMM,DC=local"
+[distinguishedName]:
+	"CN=Schema Admins,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229190830.0Z"
+[whenChanged]:
+	"20230403191538.0Z"
+[uSNCreated]:
+	"12336"
+[memberOf]:
+	"CN=Denied RODC Password Replication Group,CN=Users,DC=RBMM,DC=local"
+[uSNChanged]:
+	"684259"
+[name]:
+	"Schema Admins"
+[objectGUID]:
+	"E?2C�vbB���-1�s"
+[objectSid]:
+	""
+[adminCount]:
+	"1"
+[sAMAccountName]:
+	"Schema Admins"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483640"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[isCriticalSystemObject]:
+	"TRUE"
+[dSCorePropagationData]:
+	"20230403191538.0Z"
+	"20230403185730.0Z"
+	"20230224161027.0Z"
+	"20230224155429.0Z"
+	"16010101000000.0Z"
+[objectClass]:
+	"top"
+	"person"
+	"organizationalPerson"
+	"user"
+[cn]:
+	"tom"
+[description]:
+	""
+[distinguishedName]:
+	"CN=tom,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20230224160146.0Z"
+[whenChanged]:
+	"20230911163102.0Z"
+[uSNCreated]:
+	"569530"
+[uSNChanged]:
+	"983293"
+[name]:
+	"tom"
+[objectGUID]:
+	"�ʐ�C�DF��b�#���"
+[userAccountControl]:
+	"262658"
+[badPwdCount]:
+	"0"
+[codePage]:
+	"0"
+[countryCode]:
+	"0"
+[badPasswordTime]:
+	"0"
+[lastLogoff]:
+	"0"
+[lastLogon]:
+	"0"
+[pwdLastSet]:
+	"0"
+[primaryGroupID]:
+	"513"
+[objectSid]:
+	""
+[accountExpires]:
+	"9223372036854775807"
+[logonCount]:
+	"0"
+[sAMAccountName]:
+	"tom"
+[sAMAccountType]:
+	"805306368"
+[userPrincipalName]:
+	"tom@rbmm.local"
+[objectCategory]:
+	"CN=Person,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"16010101000001.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"WseAlertAdministrators"
+[description]:
+	"Users with permissions to view alerts in the network."
+[member]:
+	"CN=Domain Admins,CN=Users,DC=RBMM,DC=local"
+[distinguishedName]:
+	"CN=WseAlertAdministrators,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229191501.0Z"
+[whenChanged]:
+	"20211229191502.0Z"
+[uSNCreated]:
+	"12764"
+[uSNChanged]:
+	"12803"
+[name]:
+	"WseAlertAdministrators"
+[objectGUID]:
+	"i!C���@�r�h ��"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"WseAlertAdministrators"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483646"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"16010101000417.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"WseAllowAddInAccess"
+[description]:
+	"Users with permissions to access Windows Server Essentials Add-ins."
+[member]:
+	"CN=Domain Admins,CN=Users,DC=RBMM,DC=local"
+[distinguishedName]:
+	"CN=WseAllowAddInAccess,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229191501.0Z"
+[whenChanged]:
+	"20211229191502.0Z"
+[uSNCreated]:
+	"12746"
+[uSNChanged]:
+	"12788"
+[name]:
+	"WseAllowAddInAccess"
+[objectGUID]:
+	"�OE�n� G��O�d^��"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"WseAllowAddInAccess"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483646"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"16010101000417.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"WseAllowComputerAccess"
+[description]:
+	"Users with permissions to access computer remotely in Remote Web Access."
+[member]:
+	"CN=Domain Admins,CN=Users,DC=RBMM,DC=local"
+[distinguishedName]:
+	"CN=WseAllowComputerAccess,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229191501.0Z"
+[whenChanged]:
+	"20211229191502.0Z"
+[uSNCreated]:
+	"12734"
+[uSNChanged]:
+	"12791"
+[name]:
+	"WseAllowComputerAccess"
+[objectGUID]:
+	"�u��gN����F�"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"WseAllowComputerAccess"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483646"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"16010101000417.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"WseAllowDashboardAccess"
+[description]:
+	"Users with permissions to access Dashboard remotely in Remote Web Access."
+[member]:
+	"CN=Domain Admins,CN=Users,DC=RBMM,DC=local"
+[distinguishedName]:
+	"CN=WseAllowDashboardAccess,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229191501.0Z"
+[whenChanged]:
+	"20211229191502.0Z"
+[uSNCreated]:
+	"12752"
+[uSNChanged]:
+	"12794"
+[name]:
+	"WseAllowDashboardAccess"
+[objectGUID]:
+	""
+[objectSid]:
+	""
+[sAMAccountName]:
+	"WseAllowDashboardAccess"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483646"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"16010101000417.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"WseAllowHomePageLinks"
+[description]:
+	"Users with permissions to access links gadget in Remote Web Access."
+[member]:
+	"CN=Domain Admins,CN=Users,DC=RBMM,DC=local"
+[distinguishedName]:
+	"CN=WseAllowHomePageLinks,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229191501.0Z"
+[whenChanged]:
+	"20211229191502.0Z"
+[uSNCreated]:
+	"12758"
+[uSNChanged]:
+	"12797"
+[name]:
+	"WseAllowHomePageLinks"
+[objectGUID]:
+	"^"yz7ŕN��?:^["
+[objectSid]:
+	""
+[sAMAccountName]:
+	"WseAllowHomePageLinks"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483646"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"16010101000417.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"WseAllowMediaAccess"
+[description]:
+	"Users with permissions to access the media library in Remote Web Access"
+[member]:
+	"CN=Domain Admins,CN=Users,DC=RBMM,DC=local"
+[distinguishedName]:
+	"CN=WseAllowMediaAccess,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229191501.0Z"
+[whenChanged]:
+	"20211229191502.0Z"
+[uSNCreated]:
+	"12740"
+[uSNChanged]:
+	"12800"
+[name]:
+	"WseAllowMediaAccess"
+[objectGUID]:
+	"p���#�D�Qf���A"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"WseAllowMediaAccess"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483646"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"16010101000417.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"WseAllowShareAccess"
+[description]:
+	"Users with permissions to access shared folders in Remote Web Access."
+[member]:
+	"CN=Domain Admins,CN=Users,DC=RBMM,DC=local"
+[distinguishedName]:
+	"CN=WseAllowShareAccess,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229191500.0Z"
+[whenChanged]:
+	"20211229191502.0Z"
+[uSNCreated]:
+	"12728"
+[uSNChanged]:
+	"12809"
+[name]:
+	"WseAllowShareAccess"
+[objectGUID]:
+	"��uӔF��;HS�"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"WseAllowShareAccess"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483646"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"16010101000417.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"WseInvisibleToDashboard"
+[description]:
+	"Domain users that are hidden from Windows Server Essentials Dashboard."
+[member]:
+	"CN=Administrator,CN=Users,DC=RBMM,DC=local"
+[distinguishedName]:
+	"CN=WseInvisibleToDashboard,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229191501.0Z"
+[whenChanged]:
+	"20211229191524.0Z"
+[uSNCreated]:
+	"12776"
+[uSNChanged]:
+	"12835"
+[name]:
+	"WseInvisibleToDashboard"
+[objectGUID]:
+	"�bf��M��-b!wT"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"WseInvisibleToDashboard"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483646"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"16010101000417.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"WseManagedGroups"
+[description]:
+	"Groups managed by Windows Server Essentials"
+[distinguishedName]:
+	"CN=WseManagedGroups,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229191502.0Z"
+[whenChanged]:
+	"20211229191502.0Z"
+[uSNCreated]:
+	"12782"
+[uSNChanged]:
+	"12785"
+[name]:
+	"WseManagedGroups"
+[objectGUID]:
+	"�ۇB�ZeC��nb���L"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"WseManagedGroups"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483646"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"16010101000417.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"WseRemoteAccessUsers"
+[description]:
+	"Users with permissions to use VPN to connect to the server network remotely."
+[member]:
+	"CN=Domain Admins,CN=Users,DC=RBMM,DC=local"
+[distinguishedName]:
+	"CN=WseRemoteAccessUsers,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229191501.0Z"
+[whenChanged]:
+	"20211229191502.0Z"
+[uSNCreated]:
+	"12770"
+[uSNChanged]:
+	"12812"
+[name]:
+	"WseRemoteAccessUsers"
+[objectGUID]:
+	"1���"ynL�#���"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"WseRemoteAccessUsers"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483646"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"16010101000417.0Z"
+[objectClass]:
+	"top"
+	"group"
+[cn]:
+	"WseRemoteWebAccessUsers"
+[description]:
+	"Users with permissions to use Remote Web Access."
+[member]:
+	"CN=Domain Admins,CN=Users,DC=RBMM,DC=local"
+[distinguishedName]:
+	"CN=WseRemoteWebAccessUsers,CN=Users,DC=RBMM,DC=local"
+[instanceType]:
+	"4"
+[whenCreated]:
+	"20211229191500.0Z"
+[whenChanged]:
+	"20211229191502.0Z"
+[uSNCreated]:
+	"12722"
+[uSNChanged]:
+	"12806"
+[name]:
+	"WseRemoteWebAccessUsers"
+[objectGUID]:
+	"jw-�)�D���>�V"
+[objectSid]:
+	""
+[sAMAccountName]:
+	"WseRemoteWebAccessUsers"
+[sAMAccountType]:
+	"268435456"
+[groupType]:
+	"-2147483646"
+[objectCategory]:
+	"CN=Group,CN=Schema,CN=Configuration,DC=RBMM,DC=local"
+[dSCorePropagationData]:
+	"20230403185730.0Z"
+	"20230224155429.0Z"
+	"16010101000417.0Z"
+The operation completed successfully.
